@@ -53,8 +53,10 @@ export default function PosterPreview({
                                 cursor: 'pointer',
                                 padding: textStyle.bgColor !== 'transparent' ? '8px 12px' : '0',
                                 borderRadius: '4px',
-                                fontWeight: index === 0 ? 'bold' : index === 1 ? 'semibold' : 'normal',
-                                lineHeight: '1.2'
+                                fontWeight: textStyle.fontWeight || (index === 0 ? 'bold' : index === 1 ? '600' : 'normal'),
+                                lineHeight: '1.2',
+                                textTransform: (textStyle.textTransform || 'none') as 'none' | 'uppercase' | 'lowercase' | 'capitalize',
+                                letterSpacing: textStyle.letterSpacing || 'normal'
                             }}
                             className={`hover:outline hover:outline-2 hover:outline-blue-500 ${selectedTextIndex === index ? 'outline outline-2 outline-blue-500' : ''}`}
                         >

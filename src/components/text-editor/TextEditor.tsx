@@ -11,6 +11,9 @@ export interface TextStyle {
     x: number;
     y: number;
     width: number;
+    fontWeight?: string;
+    textTransform?: string;
+    letterSpacing?: string;
 }
 
 interface TextEditorProps {
@@ -36,12 +39,59 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
     // Update text styles when initialTexts changes
     useEffect(() => {
         if (initialTexts) {
+            // Expert minimalist poster design with professional typography
             // eslint-disable-next-line react-hooks/set-state-in-effect
             setTextStyles([
-                { content: initialTexts.headline, fontSize: 32, color: "#000000", bgColor: "transparent", x: 20, y: 20, width: 80 },
-                { content: initialTexts.subheadline, fontSize: 20, color: "#000000", bgColor: "transparent", x: 20, y: 70, width: 70 },
-                { content: initialTexts.bodyText, fontSize: 16, color: "#000000", bgColor: "transparent", x: 20, y: 300, width: 60 },
-                { content: initialTexts.additionalInfo, fontSize: 14, color: "#000000", bgColor: "transparent", x: 20, y: 350, width: 50 }
+                // Headline - Bold, impactful, top placement
+                { 
+                    content: initialTexts.headline, 
+                    fontSize: 48, 
+                    color: "#FF6B2C", 
+                    bgColor: "transparent", 
+                    x: 30, 
+                    y: 30, 
+                    width: 85,
+                    fontWeight: "900",
+                    textTransform: "uppercase",
+                    letterSpacing: "-0.02em"
+                },
+                // Subheadline - Medium weight, supporting text
+                { 
+                    content: initialTexts.subheadline, 
+                    fontSize: 24, 
+                    color: "#1a1a1a", 
+                    bgColor: "transparent", 
+                    x: 30, 
+                    y: 120, 
+                    width: 75,
+                    fontWeight: "600",
+                    letterSpacing: "0.01em"
+                },
+                // Body Text - Readable, contrasting background
+                { 
+                    content: initialTexts.bodyText, 
+                    fontSize: 16, 
+                    color: "#ffffff", 
+                    bgColor: "#1a1a1a", 
+                    x: 30, 
+                    y: 280, 
+                    width: 70,
+                    fontWeight: "500",
+                    letterSpacing: "0.02em"
+                },
+                // Additional Info - Small, accent colored
+                { 
+                    content: initialTexts.additionalInfo, 
+                    fontSize: 14, 
+                    color: "#FF6B2C", 
+                    bgColor: "transparent", 
+                    x: 30, 
+                    y: 340, 
+                    width: 60,
+                    fontWeight: "700",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.1em"
+                }
             ])
         }
     }, [initialTexts]);
@@ -204,6 +254,52 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
                                     placeholder="transparent"
                                 />
                             </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Font Weight</label>
+                            <select
+                                value={textStyles[selectedTextIndex].fontWeight || "normal"}
+                                onChange={(e) => updateTextStyle(selectedTextIndex, { fontWeight: e.target.value })}
+                                className="w-full p-2 border rounded outline-none"
+                            >
+                                <option value="300">Light (300)</option>
+                                <option value="400">Regular (400)</option>
+                                <option value="500">Medium (500)</option>
+                                <option value="600">Semi Bold (600)</option>
+                                <option value="700">Bold (700)</option>
+                                <option value="900">Black (900)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Text Transform</label>
+                            <select
+                                value={textStyles[selectedTextIndex].textTransform || "none"}
+                                onChange={(e) => updateTextStyle(selectedTextIndex, { textTransform: e.target.value })}
+                                className="w-full p-2 border rounded outline-none"
+                            >
+                                <option value="none">None</option>
+                                <option value="uppercase">UPPERCASE</option>
+                                <option value="lowercase">lowercase</option>
+                                <option value="capitalize">Capitalize</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Letter Spacing</label>
+                            <select
+                                value={textStyles[selectedTextIndex].letterSpacing || "normal"}
+                                onChange={(e) => updateTextStyle(selectedTextIndex, { letterSpacing: e.target.value })}
+                                className="w-full p-2 border rounded outline-none"
+                            >
+                                <option value="-0.05em">Tighter</option>
+                                <option value="-0.02em">Tight</option>
+                                <option value="normal">Normal</option>
+                                <option value="0.05em">Wide</option>
+                                <option value="0.1em">Wider</option>
+                                <option value="0.2em">Widest</option>
+                            </select>
                         </div>
 
                         <div>
