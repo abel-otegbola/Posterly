@@ -1,56 +1,75 @@
-import { TextStyle } from "../TextEditor";
+import { TextStyle, Shape } from "../TextEditor";
 
 export const ThreeDStackTemplate: Omit<TextStyle, 'content'>[] = [
     { 
-        fontSize: 32, 
-        color: "#ffffff", 
+        fontSize: 20, 
+        color: "#000000", 
         bgColor: "transparent", 
-        x: 50, 
-        y: 80, 
-        width: 75, 
+        x: 148, 
+        y: 77, 
+        width: "208px", 
         fontWeight: "900", 
         textTransform: "uppercase", 
-        letterSpacing: "0.02em", 
+        letterSpacing: "normal", 
         fontFamily: "Anton",
-        textAlign: "center" 
+        textAlign: "right",
+        zIndex: 2
     },
     { 
         fontSize: 12, 
-        color: "rgba(255, 255, 255, 0.7)", 
+        color: "#000000", 
         bgColor: "transparent", 
-        x: 50, 
-        y: 175, 
-        width: 65, 
-        fontWeight: "400", 
-        textTransform: "none", 
-        letterSpacing: "0.05em", 
-        fontFamily: "Inter",
-        textAlign: "center" 
+        x: 148, 
+        y: 136, 
+        width: "200px", 
+        fontWeight: "600", 
+        textTransform: "capitalize", 
+        letterSpacing: "normal", 
+        fontFamily: "Bebas Neue",
+        textAlign: "right",
+        zIndex: 2
     },
     { 
         fontSize: 10, 
-        color: "rgba(255, 255, 255, 0.6)", 
-        bgColor: "transparent", 
-        x: 50, 
-        y: 195, 
-        width: 60, 
+        color: "#000000", 
+        bgColor: "rgba(200, 220, 180, 0.19)", 
+        x: 133, 
+        y: 269, 
+        width: "238px", 
         fontWeight: "300", 
         textTransform: "none", 
-        letterSpacing: "0.03em", 
-        fontFamily: "Inter",
-        textAlign: "center" 
+        letterSpacing: "normal", 
+        fontFamily: "Helvetica",
+        textAlign: "center",
+        zIndex: 2
     },
     { 
-        fontSize: 9, 
-        color: "rgba(255, 255, 255, 0.5)", 
+        fontSize: 10, 
+        color: "#000000", 
         bgColor: "transparent", 
-        x: 50, 
-        y: 213, 
-        width: 55, 
-        fontWeight: "300", 
-        textTransform: "none", 
-        letterSpacing: "0em", 
-        fontFamily: "Inter",
-        textAlign: "center" 
+        x: 51, 
+        y: 348, 
+        width: "398px", 
+        fontWeight: "400", 
+        textTransform: "capitalize", 
+        letterSpacing: "normal", 
+        fontFamily: "Courier New",
+        textAlign: "center",
+        zIndex: 2
+    }
+];
+
+export const ThreeDStackShapes: Omit<Shape, 'id'>[] = [
+    {
+        type: 'rectangle',
+        x: 133,
+        y: 192,
+        width: 238,
+        height: 195,
+        color: '#d1a8c2',
+        opacity: 0.42,
+        rotation: 0,
+        borderRadius: 25,
+        zIndex: 2
     }
 ];

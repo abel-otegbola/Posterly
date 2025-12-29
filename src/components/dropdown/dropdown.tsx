@@ -24,7 +24,7 @@ export default function Dropdown({ className, disabled, label, name, options, va
     return (
         <div className={`relative flex flex-col gap-1 ${className}`}>
             <div className="flex justify-between gap-4">
-                { label ? <label htmlFor={name} className={`text-[14px] font-semibold ${focus ? "text-primary" : ""}`}>{label}</label> : "" }
+                { label ? <label htmlFor={name} className={`text-[12px] ${focus ? "text-primary" : ""}`}>{label}</label> : "" }
                 { error && !focus ? <p className="px-2 text-[12px] italic text-[#C22026] backdrop-blur-sm">{error}</p> : "" }
             </div>
 

@@ -1,56 +1,76 @@
-import { TextStyle } from "../TextEditor";
+import { TextStyle, Shape } from "../TextEditor";
 
 export const SmartChoicesTemplate: Omit<TextStyle, 'content'>[] = [
     { 
-        fontSize: 24, 
-        color: "#ffffff", 
+        fontSize: 40, 
+        color: "#000000", 
         bgColor: "transparent", 
         x: 50, 
-        y: 80, 
-        width: 80, 
-        fontWeight: "900", 
+        y: 136, 
+        width: "400px", 
+        fontWeight: "700", 
         textTransform: "capitalize", 
-        letterSpacing: "-0.02em", 
-        fontFamily: "Inter",
-        textAlign: "center" 
+        letterSpacing: "normal", 
+        fontFamily: "Playfair Display",
+        textAlign: "center",
+        zIndex: 4,
+        styleClass: "text-soft-glow"
     },
     { 
-        fontSize: 12, 
-        color: "rgba(255, 255, 255, 0.6)", 
+        fontSize: 11, 
+        color: "#000000", 
         bgColor: "transparent", 
-        x: 50, 
-        y: 160, 
-        width: 60, 
+        x: 148, 
+        y: 63, 
+        width: "200px", 
+        fontWeight: "500", 
+        textTransform: "capitalize", 
+        letterSpacing: "normal", 
+        fontFamily: "Poppins",
+        textAlign: "center",
+        zIndex: 3
+    },
+    { 
+        fontSize: 10, 
+        color: "#000000", 
+        bgColor: "rgba(200, 200, 200, 0.15)", 
+        x: 140, 
+        y: 265, 
+        width: "220px", 
+        fontWeight: "300", 
+        textTransform: "none", 
+        letterSpacing: "normal", 
+        fontFamily: "Montserrat",
+        textAlign: "center",
+        zIndex: 5
+    },
+    { 
+        fontSize: 10, 
+        color: "#000000", 
+        bgColor: "transparent", 
+        x: 60, 
+        y: 345, 
+        width: "380px", 
         fontWeight: "400", 
-        textTransform: "none", 
-        letterSpacing: "0.05em", 
-        fontFamily: "Inter",
-        textAlign: "center" 
-    },
-    { 
-        fontSize: 10, 
-        color: "rgba(255, 255, 255, 0.5)", 
-        bgColor: "transparent", 
-        x: 50, 
-        y: 180, 
-        width: 60, 
-        fontWeight: "300", 
-        textTransform: "none", 
-        letterSpacing: "0.03em", 
-        fontFamily: "Inter",
-        textAlign: "center" 
-    },
-    { 
-        fontSize: 10, 
-        color: "rgba(255, 255, 255, 0.4)", 
-        bgColor: "transparent", 
-        x: 50, 
-        y: 200, 
-        width: 50, 
-        fontWeight: "300", 
-        textTransform: "none", 
-        letterSpacing: "0.02em", 
-        fontFamily: "Inter",
-        textAlign: "center" 
+        textTransform: "capitalize", 
+        letterSpacing: "normal", 
+        fontFamily: "Lato",
+        textAlign: "center",
+        zIndex: 2
+    }
+];
+
+export const SmartChoicesShapes: Omit<Shape, 'id'>[] = [
+    {
+        type: 'circle',
+        x: 145,
+        y: 105,
+        width: 210,
+        height: 210,
+        color: '#e8d5c4',
+        opacity: 0.4,
+        rotation: 0,
+        borderRadius: 50,
+        zIndex: 2
     }
 ];
