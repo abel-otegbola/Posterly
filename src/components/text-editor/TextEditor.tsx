@@ -121,11 +121,6 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
         setCurrentTemplate(templateIndex);
     };
 
-    useEffect(() => {
-        console.log(textStyles)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [textStyles])
-
     // Update text styles when initialTexts changes
     useEffect(() => {
         if (initialTexts) {
