@@ -56,7 +56,8 @@ export default function PosterPreview({
                                 fontWeight: textStyle.fontWeight || (index === 0 ? 'bold' : index === 1 ? '600' : 'normal'),
                                 lineHeight: '1.2',
                                 textTransform: (textStyle.textTransform || 'none') as 'none' | 'uppercase' | 'lowercase' | 'capitalize',
-                                letterSpacing: textStyle.letterSpacing || 'normal'
+                                letterSpacing: textStyle.letterSpacing || 'normal',
+                                fontFamily: textStyle.fontFamily || 'Inter'
                             }}
                             className={`hover:outline hover:outline-2 hover:outline-blue-500 ${selectedTextIndex === index ? 'outline outline-2 outline-blue-500' : ''}`}
                         >

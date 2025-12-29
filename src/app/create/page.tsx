@@ -6,7 +6,7 @@ import { StarFourIcon, StorefrontIcon, ConfettiIcon, RocketLaunchIcon, HeartIcon
 import { useState } from "react";
 
 export default function CreatePosterPage() {
-    const [prompt, setPrompt] = useState("Create a vibrant poster for a summer sale event");
+    const [prompt, setPrompt] = useState("");
     const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
     const [posterTexts, setPosterTexts] = useState<{
         headline: string;

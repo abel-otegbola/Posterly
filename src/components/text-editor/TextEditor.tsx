@@ -14,6 +14,7 @@ export interface TextStyle {
     fontWeight?: string;
     textTransform?: string;
     letterSpacing?: string;
+    fontFamily?: string;
 }
 
 interface PosterTemplate {
@@ -24,53 +25,63 @@ interface PosterTemplate {
 
 const POSTER_TEMPLATES: PosterTemplate[] = [
     {
-        name: "Bold Impact",
-        description: "Explosive diagonal energy",
+        name: "Smart Choices",
+        description: "Bold statement with faded layers",
         styles: [
-            { fontSize: 56, color: "#FF0080", bgColor: "rgba(255, 0, 128, 0.15)", x: 15, y: 25, width: 75, fontWeight: "900", textTransform: "uppercase", letterSpacing: "-0.04em" },
-            { fontSize: 28, color: "#00FFD1", bgColor: "rgba(0, 0, 0, 0.8)", x: 280, y: 110, width: 50, fontWeight: "700", letterSpacing: "0.05em" },
-            { fontSize: 18, color: "#FFD700", bgColor: "transparent", x: 35, y: 230, width: 65, fontWeight: "600", letterSpacing: "0.08em" },
-            { fontSize: 14, color: "#ffffff", bgColor: "#FF0080", x: 320, y: 320, width: 35, fontWeight: "800", textTransform: "uppercase", letterSpacing: "0.15em" }
+            { fontSize: 64, color: "#ffffff", bgColor: "transparent", x: 50, y: 80, width: 80, fontWeight: "900", textTransform: "uppercase", letterSpacing: "-0.02em", fontFamily: "Inter" },
+            { fontSize: 64, color: "rgba(255, 255, 255, 0.25)", bgColor: "transparent", x: 50, y: 140, width: 80, fontWeight: "900", textTransform: "uppercase", letterSpacing: "-0.02em", fontFamily: "Inter" },
+            { fontSize: 64, color: "#ffffff", bgColor: "transparent", x: 50, y: 210, width: 80, fontWeight: "900", textTransform: "uppercase", letterSpacing: "-0.02em", fontFamily: "Inter" },
+            { fontSize: 12, color: "rgba(255, 255, 255, 0.4)", bgColor: "transparent", x: 50, y: 330, width: 60, fontWeight: "400", textTransform: "uppercase", letterSpacing: "0.15em", fontFamily: "Inter" }
         ]
     },
     {
-        name: "Retro Wave",
-        description: "80s neon vibes",
+        name: "Minimalist Quote",
+        description: "Centered elegant simplicity",
         styles: [
-            { fontSize: 48, color: "#FF006E", bgColor: "transparent", x: 180, y: 40, width: 70, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0.1em" },
-            { fontSize: 24, color: "#8338EC", bgColor: "rgba(255, 0, 110, 0.2)", x: 45, y: 120, width: 60, fontWeight: "700", letterSpacing: "0.2em" },
-            { fontSize: 20, color: "#FFBE0B", bgColor: "rgba(131, 56, 236, 0.85)", x: 200, y: 200, width: 55, fontWeight: "600", letterSpacing: "0.03em" },
-            { fontSize: 16, color: "#FB5607", bgColor: "transparent", x: 60, y: 300, width: 45, fontWeight: "800", textTransform: "uppercase", letterSpacing: "0.18em" }
+            { fontSize: 48, color: "#000000", bgColor: "transparent", x: 60, y: 140, width: 75, fontWeight: "700", textTransform: "lowercase", letterSpacing: "0em", fontFamily: "Playfair Display" },
+            { fontSize: 14, color: "#000000", bgColor: "transparent", x: 150, y: 250, width: 50, fontWeight: "400", textTransform: "uppercase", letterSpacing: "0.2em", fontFamily: "Montserrat" },
+            { fontSize: 12, color: "#666666", bgColor: "transparent", x: 150, y: 280, width: 50, fontWeight: "400", textTransform: "uppercase", letterSpacing: "0.15em", fontFamily: "Montserrat" },
+            { fontSize: 10, color: "#999999", bgColor: "transparent", x: 150, y: 310, width: 40, fontWeight: "300", textTransform: "none", letterSpacing: "0em", fontFamily: "Inter" }
         ]
     },
     {
-        name: "Brutalist Stack",
-        description: "Raw, overlapping blocks",
+        name: "Geometric Bold",
+        description: "Shapes and condensed type",
         styles: [
-            { fontSize: 50, color: "#000000", bgColor: "#FFFF00", x: 10, y: 60, width: 65, fontWeight: "900", textTransform: "uppercase", letterSpacing: "-0.05em" },
-            { fontSize: 26, color: "#ffffff", bgColor: "#FF0000", x: 220, y: 50, width: 55, fontWeight: "900", letterSpacing: "0em" },
-            { fontSize: 18, color: "#000000", bgColor: "#00FF00", x: 30, y: 200, width: 70, fontWeight: "700", letterSpacing: "0.05em" },
-            { fontSize: 15, color: "#FFFF00", bgColor: "#000000", x: 240, y: 280, width: 48, fontWeight: "800", textTransform: "uppercase", letterSpacing: "0.12em" }
+            { fontSize: 56, color: "#ffffff", bgColor: "transparent", x: 30, y: 60, width: 70, fontWeight: "900", textTransform: "uppercase", letterSpacing: "-0.03em", fontFamily: "Bebas Neue" },
+            { fontSize: 56, color: "#ffffff", bgColor: "transparent", x: 30, y: 130, width: 70, fontWeight: "900", textTransform: "uppercase", letterSpacing: "-0.03em", fontFamily: "Bebas Neue" },
+            { fontSize: 56, color: "#ffffff", bgColor: "transparent", x: 30, y: 200, width: 70, fontWeight: "900", textTransform: "uppercase", letterSpacing: "-0.03em", fontFamily: "Bebas Neue" },
+            { fontSize: 56, color: "#ffffff", bgColor: "transparent", x: 30, y: 270, width: 70, fontWeight: "900", textTransform: "uppercase", letterSpacing: "-0.03em", fontFamily: "Bebas Neue" }
         ]
     },
     {
-        name: "Gradient Flow",
-        description: "Smooth color transitions",
+        name: "Intelligence Quote",
+        description: "Large impactful statement",
         styles: [
-            { fontSize: 52, color: "#6366F1", bgColor: "rgba(147, 51, 234, 0.12)", x: 25, y: 35, width: 80, fontWeight: "800", textTransform: "capitalize", letterSpacing: "-0.02em" },
-            { fontSize: 22, color: "#EC4899", bgColor: "transparent", x: 200, y: 130, width: 50, fontWeight: "600", letterSpacing: "0.06em" },
-            { fontSize: 19, color: "#14B8A6", bgColor: "rgba(236, 72, 153, 0.18)", x: 40, y: 220, width: 68, fontWeight: "500", letterSpacing: "0.02em" },
-            { fontSize: 16, color: "#F59E0B", bgColor: "rgba(20, 184, 166, 0.2)", x: 210, y: 310, width: 42, fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.14em" }
+            { fontSize: 72, color: "#000000", bgColor: "transparent", x: 40, y: 100, width: 85, fontWeight: "900", textTransform: "lowercase", letterSpacing: "-0.02em", fontFamily: "Poppins" },
+            { fontSize: 72, color: "#000000", bgColor: "transparent", x: 40, y: 180, width: 85, fontWeight: "900", textTransform: "lowercase", letterSpacing: "-0.02em", fontFamily: "Poppins" },
+            { fontSize: 72, color: "#000000", bgColor: "transparent", x: 40, y: 260, width: 85, fontWeight: "900", textTransform: "lowercase", letterSpacing: "-0.02em", fontFamily: "Poppins" },
+            { fontSize: 18, color: "#000000", bgColor: "transparent", x: 40, y: 340, width: 50, fontWeight: "400", textTransform: "none", letterSpacing: "0em", fontFamily: "Inter" }
         ]
     },
     {
-        name: "Glitch Chaos",
-        description: "Digital distortion aesthetic",
+        name: "Playful Split",
+        description: "Staggered word placement",
         styles: [
-            { fontSize: 54, color: "#00FF41", bgColor: "rgba(0, 0, 0, 0.9)", x: 50, y: 45, width: 72, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0.08em" },
-            { fontSize: 26, color: "#FF00FF", bgColor: "rgba(0, 255, 65, 0.15)", x: 15, y: 140, width: 58, fontWeight: "800", letterSpacing: "-0.01em" },
-            { fontSize: 20, color: "#00FFFF", bgColor: "transparent", x: 250, y: 210, width: 48, fontWeight: "700", letterSpacing: "0.15em" },
-            { fontSize: 14, color: "#000000", bgColor: "#00FF41", x: 30, y: 310, width: 52, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0.22em" }
+            { fontSize: 52, color: "#000000", bgColor: "transparent", x: 80, y: 80, width: 50, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0em", fontFamily: "Oswald" },
+            { fontSize: 52, color: "#000000", bgColor: "transparent", x: 80, y: 140, width: 60, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0em", fontFamily: "Oswald" },
+            { fontSize: 52, color: "#000000", bgColor: "transparent", x: 220, y: 200, width: 40, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0em", fontFamily: "Oswald" },
+            { fontSize: 52, color: "#000000", bgColor: "transparent", x: 160, y: 260, width: 45, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0em", fontFamily: "Oswald" }
+        ]
+    },
+    {
+        name: "3D Stack",
+        description: "Bold stacked with depth",
+        styles: [
+            { fontSize: 80, color: "#ffffff", bgColor: "transparent", x: 50, y: 80, width: 75, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0.02em", fontFamily: "Anton" },
+            { fontSize: 80, color: "#ffffff", bgColor: "transparent", x: 50, y: 170, width: 75, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0.02em", fontFamily: "Anton" },
+            { fontSize: 80, color: "#ffffff", bgColor: "transparent", x: 50, y: 260, width: 75, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0.02em", fontFamily: "Anton" },
+            { fontSize: 12, color: "rgba(255, 255, 255, 0.6)", bgColor: "transparent", x: 50, y: 350, width: 50, fontWeight: "400", textTransform: "uppercase", letterSpacing: "0.2em", fontFamily: "Inter" }
         ]
     }
 ];
@@ -302,6 +313,38 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
                                     placeholder="transparent"
                                 />
                             </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Font Family</label>
+                            <select
+                                value={textStyles[selectedTextIndex].fontFamily || "Inter"}
+                                onChange={(e) => updateTextStyle(selectedTextIndex, { fontFamily: e.target.value })}
+                                className="w-full p-2 border rounded outline-none"
+                            >
+                                <optgroup label="Google Fonts">
+                                    <option value="Inter">Inter</option>
+                                    <option value="Poppins">Poppins</option>
+                                    <option value="Montserrat">Montserrat</option>
+                                    <option value="Roboto">Roboto</option>
+                                    <option value="Playfair Display">Playfair Display</option>
+                                    <option value="Bebas Neue">Bebas Neue</option>
+                                    <option value="Oswald">Oswald</option>
+                                    <option value="Anton">Anton</option>
+                                    <option value="Raleway">Raleway</option>
+                                    <option value="Lato">Lato</option>
+                                    <option value="Open Sans">Open Sans</option>
+                                    <option value="Merriweather">Merriweather</option>
+                                </optgroup>
+                                <optgroup label="System Fonts">
+                                    <option value="Arial">Arial</option>
+                                    <option value="Helvetica">Helvetica</option>
+                                    <option value="Times New Roman">Times New Roman</option>
+                                    <option value="Georgia">Georgia</option>
+                                    <option value="Courier New">Courier New</option>
+                                    <option value="Verdana">Verdana</option>
+                                </optgroup>
+                            </select>
                         </div>
 
                         <div>
