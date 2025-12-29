@@ -257,6 +257,33 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
                     
                     <div className="space-y-4 px-4 py-4 border-y border-gray-500/[0.1] flex-1 overflow-y-auto">
                         <div>
+                            <label className="block text-[12px] font-medium mb-2">Apply Template Style</label>
+                            <div className="grid grid-cols-2 gap-2 mb-4">
+                                {POSTER_TEMPLATES.map((template, templateIdx) => (
+                                    <button
+                                        key={templateIdx}
+                                        onClick={() => {
+                                            // Apply first style from selected template to current text
+                                            const templateStyle = template.styles[0];
+                                            updateTextStyle(selectedTextIndex, {
+                                                fontSize: templateStyle.fontSize,
+                                                color: templateStyle.color,
+                                                bgColor: templateStyle.bgColor,
+                                                fontWeight: templateStyle.fontWeight,
+                                                textTransform: templateStyle.textTransform,
+                                                letterSpacing: templateStyle.letterSpacing,
+                                                fontFamily: templateStyle.fontFamily
+                                            });
+                                        }}
+                                        className="p-2 text-[10px] rounded-lg border border-gray-500/[0.1] hover:bg-gray-100 transition-all"
+                                    >
+                                        {template.name}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
                             <label className="block text-[12px] font-medium mb-1">Content</label>
                             <textarea
                                 value={textStyles[selectedTextIndex].content}
