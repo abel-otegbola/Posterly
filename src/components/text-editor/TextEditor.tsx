@@ -3,6 +3,8 @@ import { EyeIcon } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import PosterPreview from "./PosterPreview";
 import Input from "../input/input";
+import Dropdown from "../dropdown/dropdown";
+import { POSTER_TEMPLATES } from "./templates";
 
 export interface TextStyle {
     content: string;
@@ -16,76 +18,8 @@ export interface TextStyle {
     textTransform?: string;
     letterSpacing?: string;
     fontFamily?: string;
+    textAlign?: string;
 }
-
-interface PosterTemplate {
-    name: string;
-    description: string;
-    styles: Omit<TextStyle, 'content'>[];
-}
-
-const POSTER_TEMPLATES: PosterTemplate[] = [
-    {
-        name: "Smart Choices",
-        description: "Bold statement with faded layers",
-        styles: [
-            { fontSize: 64, color: "#ffffff", bgColor: "transparent", x: 50, y: 80, width: 80, fontWeight: "900", textTransform: "uppercase", letterSpacing: "-0.02em", fontFamily: "Inter" },
-            { fontSize: 64, color: "rgba(255, 255, 255, 0.25)", bgColor: "transparent", x: 50, y: 140, width: 80, fontWeight: "900", textTransform: "uppercase", letterSpacing: "-0.02em", fontFamily: "Inter" },
-            { fontSize: 64, color: "#ffffff", bgColor: "transparent", x: 50, y: 210, width: 80, fontWeight: "900", textTransform: "uppercase", letterSpacing: "-0.02em", fontFamily: "Inter" },
-            { fontSize: 12, color: "rgba(255, 255, 255, 0.4)", bgColor: "transparent", x: 50, y: 330, width: 60, fontWeight: "400", textTransform: "uppercase", letterSpacing: "0.15em", fontFamily: "Inter" }
-        ]
-    },
-    {
-        name: "Minimalist Quote",
-        description: "Centered elegant simplicity",
-        styles: [
-            { fontSize: 48, color: "#000000", bgColor: "transparent", x: 60, y: 140, width: 75, fontWeight: "700", textTransform: "lowercase", letterSpacing: "0em", fontFamily: "Playfair Display" },
-            { fontSize: 14, color: "#000000", bgColor: "transparent", x: 150, y: 250, width: 50, fontWeight: "400", textTransform: "uppercase", letterSpacing: "0.2em", fontFamily: "Montserrat" },
-            { fontSize: 12, color: "#666666", bgColor: "transparent", x: 150, y: 280, width: 50, fontWeight: "400", textTransform: "uppercase", letterSpacing: "0.15em", fontFamily: "Montserrat" },
-            { fontSize: 10, color: "#999999", bgColor: "transparent", x: 150, y: 310, width: 40, fontWeight: "300", textTransform: "none", letterSpacing: "0em", fontFamily: "Inter" }
-        ]
-    },
-    {
-        name: "Geometric Bold",
-        description: "Shapes and condensed type",
-        styles: [
-            { fontSize: 56, color: "#ffffff", bgColor: "transparent", x: 30, y: 60, width: 70, fontWeight: "900", textTransform: "uppercase", letterSpacing: "-0.03em", fontFamily: "Bebas Neue" },
-            { fontSize: 56, color: "#ffffff", bgColor: "transparent", x: 30, y: 130, width: 70, fontWeight: "900", textTransform: "uppercase", letterSpacing: "-0.03em", fontFamily: "Bebas Neue" },
-            { fontSize: 56, color: "#ffffff", bgColor: "transparent", x: 30, y: 200, width: 70, fontWeight: "900", textTransform: "uppercase", letterSpacing: "-0.03em", fontFamily: "Bebas Neue" },
-            { fontSize: 56, color: "#ffffff", bgColor: "transparent", x: 30, y: 270, width: 70, fontWeight: "900", textTransform: "uppercase", letterSpacing: "-0.03em", fontFamily: "Bebas Neue" }
-        ]
-    },
-    {
-        name: "Intelligence Quote",
-        description: "Large impactful statement",
-        styles: [
-            { fontSize: 72, color: "#000000", bgColor: "transparent", x: 40, y: 100, width: 85, fontWeight: "900", textTransform: "lowercase", letterSpacing: "-0.02em", fontFamily: "Poppins" },
-            { fontSize: 72, color: "#000000", bgColor: "transparent", x: 40, y: 180, width: 85, fontWeight: "900", textTransform: "lowercase", letterSpacing: "-0.02em", fontFamily: "Poppins" },
-            { fontSize: 72, color: "#000000", bgColor: "transparent", x: 40, y: 260, width: 85, fontWeight: "900", textTransform: "lowercase", letterSpacing: "-0.02em", fontFamily: "Poppins" },
-            { fontSize: 18, color: "#000000", bgColor: "transparent", x: 40, y: 340, width: 50, fontWeight: "400", textTransform: "none", letterSpacing: "0em", fontFamily: "Inter" }
-        ]
-    },
-    {
-        name: "Playful Split",
-        description: "Staggered word placement",
-        styles: [
-            { fontSize: 52, color: "#000000", bgColor: "transparent", x: 80, y: 80, width: 50, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0em", fontFamily: "Oswald" },
-            { fontSize: 52, color: "#000000", bgColor: "transparent", x: 80, y: 140, width: 60, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0em", fontFamily: "Oswald" },
-            { fontSize: 52, color: "#000000", bgColor: "transparent", x: 220, y: 200, width: 40, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0em", fontFamily: "Oswald" },
-            { fontSize: 52, color: "#000000", bgColor: "transparent", x: 160, y: 260, width: 45, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0em", fontFamily: "Oswald" }
-        ]
-    },
-    {
-        name: "3D Stack",
-        description: "Bold stacked with depth",
-        styles: [
-            { fontSize: 80, color: "#ffffff", bgColor: "transparent", x: 50, y: 80, width: 75, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0.02em", fontFamily: "Anton" },
-            { fontSize: 80, color: "#ffffff", bgColor: "transparent", x: 50, y: 170, width: 75, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0.02em", fontFamily: "Anton" },
-            { fontSize: 80, color: "#ffffff", bgColor: "transparent", x: 50, y: 260, width: 75, fontWeight: "900", textTransform: "uppercase", letterSpacing: "0.02em", fontFamily: "Anton" },
-            { fontSize: 12, color: "rgba(255, 255, 255, 0.6)", bgColor: "transparent", x: 50, y: 350, width: 50, fontWeight: "400", textTransform: "uppercase", letterSpacing: "0.2em", fontFamily: "Inter" }
-        ]
-    }
-];
 
 interface TextEditorProps {
     backgroundImage: string;
@@ -189,6 +123,10 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
         setShowEditor(true);
     }
 
+    const handlePositionChange = (index: number, x: number, y: number) => {
+        updateTextStyle(index, { x, y });
+    }
+
     return (
         <div className="flex gap-6 w-full">
             <div className="flex flex-col rounded-[12px] border border-gray-500/[0.1] bg-white py-4 h-[95vh] w-[250px]">
@@ -266,6 +204,7 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
                 onAddText={addNewText}
                 onNewPoster={onClose || (() => {})}
                 onRegenerateBackground={handleRegenerateBackground}
+                onPositionChange={handlePositionChange}
                 isRegenerating={isRegenerating}
             />
 
@@ -331,13 +270,13 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
                                     type="color"
                                     value={textStyles[selectedTextIndex].color}
                                     onChange={(e) => updateTextStyle(selectedTextIndex, { color: e.target.value })}
-                                    className="w-12 h-10 rounded border"
+                                    className="w-12 h-12 rounded-[12px]"
                                 />
                                 <Input
                                     type="text"
                                     value={textStyles[selectedTextIndex].color}
                                     onChange={(e) => updateTextStyle(selectedTextIndex, { color: e.target.value })}
-                                    className="flex-1 p-2 border rounded outline-none"
+                                    className="flex-1"
                                 />
                             </div>
                         </div>
@@ -345,68 +284,64 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
                         <div>
                             <label className="block text-sm font-medium mb-1">Background Color</label>
                             <div className="flex gap-2">
-                                <Input
+                                <input
                                     type="color"
                                     value={textStyles[selectedTextIndex].bgColor === 'transparent' ? '#ffffff' : textStyles[selectedTextIndex].bgColor}
                                     onChange={(e) => updateTextStyle(selectedTextIndex, { bgColor: e.target.value })}
-                                    className="w-12 h-10 rounded border"
+                                    className="w-12 h-12 rounded-[12px]"
                                 />
                                 <Input
                                     type="text"
                                     value={textStyles[selectedTextIndex].bgColor}
                                     onChange={(e) => updateTextStyle(selectedTextIndex, { bgColor: e.target.value })}
-                                    className="flex-1 p-2 border rounded outline-none"
+                                    className="flex-1"
                                     placeholder="transparent"
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium mb-1">Font Family</label>
-                            <select
+                            <Dropdown
+                                label="Font Family"
                                 value={textStyles[selectedTextIndex].fontFamily || "Inter"}
-                                onChange={(e) => updateTextStyle(selectedTextIndex, { fontFamily: e.target.value })}
-                                className="w-full p-2 border rounded outline-none"
-                            >
-                                <optgroup label="Google Fonts">
-                                    <option value="Inter">Inter</option>
-                                    <option value="Poppins">Poppins</option>
-                                    <option value="Montserrat">Montserrat</option>
-                                    <option value="Roboto">Roboto</option>
-                                    <option value="Playfair Display">Playfair Display</option>
-                                    <option value="Bebas Neue">Bebas Neue</option>
-                                    <option value="Oswald">Oswald</option>
-                                    <option value="Anton">Anton</option>
-                                    <option value="Raleway">Raleway</option>
-                                    <option value="Lato">Lato</option>
-                                    <option value="Open Sans">Open Sans</option>
-                                    <option value="Merriweather">Merriweather</option>
-                                </optgroup>
-                                <optgroup label="System Fonts">
-                                    <option value="Arial">Arial</option>
-                                    <option value="Helvetica">Helvetica</option>
-                                    <option value="Times New Roman">Times New Roman</option>
-                                    <option value="Georgia">Georgia</option>
-                                    <option value="Courier New">Courier New</option>
-                                    <option value="Verdana">Verdana</option>
-                                </optgroup>
-                            </select>
+                                onChange={(value) => updateTextStyle(selectedTextIndex, { fontFamily: value })}
+                                options={[
+                                    { id: 1, title: "Inter" },
+                                    { id: 2, title: "Poppins" },
+                                    { id: 3, title: "Montserrat" },
+                                    { id: 4, title: "Roboto" },
+                                    { id: 5, title: "Playfair Display" },
+                                    { id: 6, title: "Bebas Neue" },
+                                    { id: 7, title: "Oswald" },
+                                    { id: 8, title: "Anton" },
+                                    { id: 9, title: "Raleway" },
+                                    { id: 10, title: "Lato" },
+                                    { id: 11, title: "Open Sans" },
+                                    { id: 12, title: "Merriweather" },
+                                    { id: 13, title: "Arial" },
+                                    { id: 14, title: "Helvetica" },
+                                    { id: 15, title: "Times New Roman" },
+                                    { id: 16, title: "Georgia" },
+                                    { id: 17, title: "Courier New" },
+                                    { id: 18, title: "Verdana" }
+                                ]}
+                            />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium mb-1">Font Weight</label>
-                            <select
-                                value={textStyles[selectedTextIndex].fontWeight || "normal"}
-                                onChange={(e) => updateTextStyle(selectedTextIndex, { fontWeight: e.target.value })}
-                                className="w-full p-2 border rounded outline-none"
-                            >
-                                <option value="300">Light (300)</option>
-                                <option value="400">Regular (400)</option>
-                                <option value="500">Medium (500)</option>
-                                <option value="600">Semi Bold (600)</option>
-                                <option value="700">Bold (700)</option>
-                                <option value="900">Black (900)</option>
-                            </select>
+                            <Dropdown
+                                label="Font Weight"
+                                value={textStyles[selectedTextIndex].fontWeight || "400"}
+                                onChange={(value) => updateTextStyle(selectedTextIndex, { fontWeight: value })}
+                                options={[
+                                    { id: 1, title: "300" },
+                                    { id: 2, title: "400" },
+                                    { id: 3, title: "500" },
+                                    { id: 4, title: "600" },
+                                    { id: 5, title: "700" },
+                                    { id: 6, title: "900" }
+                                ]}
+                            />
                         </div>
 
                         <div>

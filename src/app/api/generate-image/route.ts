@@ -18,7 +18,14 @@ export async function POST(req: Request) {
     // Generate image using HuggingFace Inference Client
     const image = await client.textToImage({
       model: "black-forest-labs/FLUX.1-schnell",
-      inputs: `Minimal atmospheric background inspired by the theme: ${prompt}. Soft, monochromatic architectural or scenic silhouette barely visible through fog and mist. High-key lighting, washed-out tones, smooth blur, dreamy cloudy atmosphere. Very subtle details only. No text, no writing, no typography, no numbers, no symbols, no logos.. Color scheme: ${colorScheme}. Style: ${theme}.`,
+      inputs: `Minimalist editorial poster background inspired by the theme: ${prompt}.
+              Clean, spacious composition with large empty negative space dominating the design.
+              Plain background with very soft gradients or subtle fog, smoke, or blur texture.
+              A small, understated illustration or photographic element placed near the bottom or edge of the frame, occupying no more than 20–30% of the canvas.
+              The illustration should be softly faded, low contrast, partially blended into the background color, and slightly misty or desaturated.
+              Calm, poetic, and atmospheric mood.
+              No text, no letters, no words, no typography, no numbers, no symbols, no logos, no watermarks.
+              Designed strictly as a background for overlaying text later. ${colorScheme}. Style: ${theme}.`,
       parameters: {
         negative_prompt: "text, words, letters, typography, writing, alphabet, numbers, symbols, captions, titles, labels, signs, messages, quotes, phrases, fonts, watermarks, logos, written content, inscriptions, banners, posters with text, billboards"
       }
