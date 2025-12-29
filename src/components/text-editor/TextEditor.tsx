@@ -103,19 +103,27 @@ interface TextEditorProps {
 export default function TextEditor({ backgroundImage, initialTexts, initialPrompt = "", onClose, onRegenerateBackground }: TextEditorProps) {
     const [currentTemplate, setCurrentTemplate] = useState(0);
 
-    const getInitialTextStyles = (texts = initialTexts, templateIdx = currentTemplate) => {
+    const getInitialTextStyles = (texts = initialTexts) => {
         if (!texts) return [];
-        const template = POSTER_TEMPLATES[templateIdx];
         const contents = [
             texts.headline,
             texts.subheadline,
             texts.bodyText,
             texts.additionalInfo
         ];
-        return template.styles.map((style, index) => ({
-            ...style,
-            content: contents[index] || ""
-        }));
+        
+        // Mix different templates for each text element
+        const templateIndexes = [0, 1, 3, 4]; // Use Smart Choices, Minimalist Quote, Intelligence Quote, Playful Split
+        
+        return contents.map((content, index) => {
+            const templateIdx = templateIndexes[index] % POSTER_TEMPLATES.length;
+            const template = POSTER_TEMPLATES[templateIdx];
+            const styleIdx = index % template.styles.length;
+            return {
+                ...template.styles[styleIdx],
+                content: content || ""
+            };
+        });
     };
 
     const [textStyles, setTextStyles] = useState<TextStyle[]>(() => getInitialTextStyles());
@@ -126,17 +134,27 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
 
     const applyTemplate = (templateIndex: number) => {
         if (!initialTexts) return;
-        setTextStyles(getInitialTextStyles(initialTexts, templateIndex));
+        const template = POSTER_TEMPLATES[templateIndex];
+        const contents = [
+            initialTexts.headline,
+            initialTexts.subheadline,
+            initialTexts.bodyText,
+            initialTexts.additionalInfo
+        ];
+        setTextStyles(template.styles.map((style, index) => ({
+            ...style,
+            content: contents[index] || ""
+        })));
         setCurrentTemplate(templateIndex);
     };
 
-    // Update text styles when initialTexts or currentTemplate changes
+    // Update text styles when initialTexts changes
     useEffect(() => {
         if (initialTexts) {
-            setTextStyles(getInitialTextStyles(initialTexts, currentTemplate));
+            setTextStyles(getInitialTextStyles(initialTexts));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [initialTexts, currentTemplate]);
+    }, [initialTexts]);
 
     const updateTextStyle = (index: number, updates: Partial<TextStyle>) => {
         const newStyles = [...textStyles];
