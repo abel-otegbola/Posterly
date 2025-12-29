@@ -2,6 +2,7 @@
 import { EyeIcon } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import PosterPreview from "./PosterPreview";
+import Input from "../input/input";
 
 export interface TextStyle {
     content: string;
@@ -295,7 +296,7 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
 
                         <div>
                             <label className="block text-sm font-medium mb-1">Font Size: {textStyles[selectedTextIndex].fontSize}px</label>
-                            <input
+                            <Input
                                 type="range"
                                 min="12"
                                 max="60"
@@ -308,13 +309,13 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
                         <div>
                             <label className="block text-sm font-medium mb-1">Text Color</label>
                             <div className="flex gap-2">
-                                <input
+                                <Input
                                     type="color"
                                     value={textStyles[selectedTextIndex].color}
                                     onChange={(e) => updateTextStyle(selectedTextIndex, { color: e.target.value })}
                                     className="w-12 h-10 rounded border"
                                 />
-                                <input
+                                <Input
                                     type="text"
                                     value={textStyles[selectedTextIndex].color}
                                     onChange={(e) => updateTextStyle(selectedTextIndex, { color: e.target.value })}
@@ -326,13 +327,13 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
                         <div>
                             <label className="block text-sm font-medium mb-1">Background Color</label>
                             <div className="flex gap-2">
-                                <input
+                                <Input
                                     type="color"
                                     value={textStyles[selectedTextIndex].bgColor === 'transparent' ? '#ffffff' : textStyles[selectedTextIndex].bgColor}
                                     onChange={(e) => updateTextStyle(selectedTextIndex, { bgColor: e.target.value })}
                                     className="w-12 h-10 rounded border"
                                 />
-                                <input
+                                <Input
                                     type="text"
                                     value={textStyles[selectedTextIndex].bgColor}
                                     onChange={(e) => updateTextStyle(selectedTextIndex, { bgColor: e.target.value })}
@@ -392,7 +393,7 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
 
                         <div>
                             <label className="block text-sm font-medium mb-1">Width: {textStyles[selectedTextIndex].width || 'auto'}px</label>
-                            <input
+                            <Input
                                 type="range"
                                 min="100"
                                 max="800"
