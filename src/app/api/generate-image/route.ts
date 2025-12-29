@@ -2,16 +2,38 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { prompt, theme, colorScheme } = await req.json();
+    const { prompt, theme, colorScheme, themeColor } = await req.json();
 
-    const fullPrompt = `Minimalist editorial poster background inspired by the theme: ${prompt}.
-              Clean, spacious composition with large empty negative space dominating the design.
-              Plain background with very soft gradients or subtle fog, smoke, or blur texture.
-              A small, understated illustration or photographic element placed near the bottom or edge of the frame, occupying no more than 20–30% of the canvas.
-              The illustration should be softly faded, low contrast, partially blended into the background color, and slightly misty or desaturated.
-              Calm, poetic, and atmospheric mood.
-              No text, no letters, no words, no typography, no numbers, no symbols, no logos, no watermarks.
-              Designed strictly as a background for overlaying text later. ${colorScheme}. Style: ${theme}.`;
+    // Generate prompt based on theme with theme color influence
+    let fullPrompt: string;
+    const colorHint = themeColor ? ` Subtle color accents inspired by ${themeColor}.` : "";
+    
+    if (theme?.toLowerCase() === 'light') {
+      fullPrompt = `High-key minimalist editorial poster background inspired by the theme: ${prompt}.${colorHint}
+Predominantly white or very light background with subtle cloudy gradients and soft haze.
+Large empty negative space covering most of the canvas.
+A small, quiet illustration or scenic silhouette near the bottom of the image, softly blended into the background, low contrast, slightly foggy and desaturated.
+Peaceful, airy, and elegant composition.
+No text, no writing, no typography, no numbers, no symbols, no logos, no watermarks.
+${colorScheme}`;
+    } else if (theme?.toLowerCase() === 'dark') {
+      fullPrompt = `Dark minimalist editorial poster background inspired by the theme: ${prompt}.${colorHint}
+Deep charcoal, black, or dark grey background with soft gradients and subtle fog or smoke texture.
+Large empty negative space dominating the frame.
+A small, muted illustration or scene near the bottom or corner, softly blended into the darkness, low contrast, atmospheric, and slightly blurred.
+Cinematic, calm, and introspective mood.
+No text, no words, no typography, no numbers, no symbols, no logos, no watermarks.
+${colorScheme}`;
+    } else {
+      fullPrompt = `Minimalist editorial poster background inspired by the theme: ${prompt}.${colorHint}
+Clean, spacious composition with large empty negative space dominating the design.
+Plain background with very soft gradients or subtle fog, smoke, or blur texture.
+A small, understated illustration or photographic element placed near the bottom or edge of the frame, occupying no more than 20–30% of the canvas.
+The illustration should be softly faded, low contrast, partially blended into the background color, and slightly misty or desaturated.
+Calm, poetic, and atmospheric mood.
+No text, no letters, no words, no typography, no numbers, no symbols, no logos, no watermarks.
+Designed strictly as a background for overlaying text later.`;
+    }
 
     // Generate image using Cloudflare Workers AI
     const response = await fetch(

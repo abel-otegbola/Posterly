@@ -46,12 +46,52 @@ interface TextEditorProps {
         additionalInfo: string;
     };
     initialPrompt?: string;
+    themeColor?: string;
     onClose?: () => void;
     onRegenerateBackground?: (prompt: string) => Promise<void>;
 }
 
-export default function TextEditor({ backgroundImage, initialTexts, initialPrompt = "", onClose, onRegenerateBackground }: TextEditorProps) {
+export default function TextEditor({ backgroundImage, initialTexts, initialPrompt = "", themeColor, onClose, onRegenerateBackground }: TextEditorProps) {
     const [currentTemplate, setCurrentTemplate] = useState(0);
+
+    // Get complementary text colors based on theme color
+    const getTextColorsFromTheme = (themeColor?: string): string[] => {
+        if (!themeColor) {
+            return ["#000000", "#1a1a1a", "#333333", "#4a4a4a"];
+        }
+
+        // Convert hex to RGB
+        const hexToRgb = (hex: string) => {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        };
+
+        // Calculate relative luminance
+        const getLuminance = (r: number, g: number, b: number) => {
+            const [rs, gs, bs] = [r, g, b].map(c => {
+                c = c / 255;
+                return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+            });
+            return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+        };
+
+        const rgb = hexToRgb(themeColor);
+        if (!rgb) return ["#000000", "#1a1a1a", "#333333", "#4a4a4a"];
+
+        const luminance = getLuminance(rgb.r, rgb.g, rgb.b);
+
+        // If theme color is light, use dark text colors
+        if (luminance > 0.5) {
+            return ["#000000", "#1a1a1a", "#2d2d2d", "#404040"];
+        } else {
+            // If theme color is dark, use light text colors
+            return ["#ffffff", "#f5f5f5", "#e8e8e8", "#d9d9d9"];
+        }
+    };
 
     const getInitialTextStyles = (texts = initialTexts) => {
         if (!texts) return [];
@@ -64,12 +104,14 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
         
         // Use Smart Choices template (index 0) for initial load
         const template = POSTER_TEMPLATES[0];
+        const textColors = getTextColorsFromTheme(themeColor);
         
         return contents.map((content, index) => {
             const styleIdx = index % template.styles.length;
             return {
                 ...template.styles[styleIdx],
-                content: content || ""
+                content: content || "",
+                color: textColors[index % textColors.length] // Apply theme-based color
             };
         });
     };

@@ -19,6 +19,24 @@ export default function CreatePosterPage() {
     const [colorScheme, setColorScheme] = useState("Vibrant & Colorful");
     const [loading, setLoading] = useState(false);
     const [loadingTexts, setLoadingTexts] = useState(false);
+    const [themeColor, setThemeColor] = useState<string | null>(null);
+    
+    // Generate theme color based on color scheme and theme
+    const generateThemeColor = (): string => {
+        const colorPalettes: Record<string, string[]> = {
+            "Vibrant & Colorful": ["#FF6B6B", "#4ECDC4"],
+            "Soft Pastel": ["#FFB6C1", "#E0BBE4"],
+            "Monochrome": ["#2C3E50", "#7F8C8D"],
+            "Warm Tones": ["#E74C3C", "#F39C12"],
+            "Cool Tones": ["#3498DB", "#1ABC9C"],
+            "Neon & Bright": ["#00FFF0", "#FF00FF"],
+            "Earthy & Natural": ["#8B7355", "#8FBC8F"],
+            "Luxury Gold/Silver": ["#D4AF37", "#C0C0C0"]
+        };
+
+        const palette = colorPalettes[colorScheme] || colorPalettes["Vibrant & Colorful"];
+        return palette[Math.floor(Math.random() * palette.length)];
+    };
     
     const buildEnhancedPrompt = () => {
         return `${prompt}. Theme: ${theme}, Text style: ${textStyle}, Color scheme: ${colorScheme}`;
@@ -26,10 +44,18 @@ export default function CreatePosterPage() {
     
     const fetchImage = async () => {
         setLoading(true);
+        const generatedThemeColor = generateThemeColor();
+        setThemeColor(generatedThemeColor);
+        
         const res = await fetch("/api/generate-image", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt: buildEnhancedPrompt() }),
+            body: JSON.stringify({ 
+                prompt: buildEnhancedPrompt(), 
+                theme,
+                colorScheme,
+                themeColor: generatedThemeColor 
+            }),
         });
 
         const data = await res.json();
@@ -82,6 +108,7 @@ export default function CreatePosterPage() {
                     backgroundImage={backgroundImage}
                     initialTexts={posterTexts || undefined}
                     initialPrompt={buildEnhancedPrompt()}
+                    themeColor={themeColor || undefined}
                     onClose={handleNewPoster}
                     onRegenerateBackground={handleRegenerateBackground}
                 />
