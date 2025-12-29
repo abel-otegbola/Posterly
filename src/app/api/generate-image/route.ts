@@ -13,7 +13,7 @@ const client = new InferenceClient(process.env.HUGGINGFACE_API_TOKEN, {
 
 export async function POST(req: Request) {
   try {
-    const { prompt } = await req.json();
+    const { prompt, theme, colorScheme } = await req.json();
 
     // Parse prompt to determine visual style
     const lowerPrompt = prompt.toLowerCase();
@@ -50,7 +50,10 @@ export async function POST(req: Request) {
     // Generate image using HuggingFace Inference Client
     const image = await client.textToImage({
       model: "black-forest-labs/FLUX.1-schnell",
-      inputs: `${visualStyle}. High-quality commercial photography style based on: ${prompt}. Clean, professional composition. Vibrant and eye-catching. NO text, letters, words, numbers, typography, captions, labels, or written content visible anywhere in the image.`,
+      inputs: `${visualStyle}. High-quality ${theme} theme, with ${colorScheme} color scheme. Clean, professional composition. Vibrant and eye-catching. NO text, letters, words, numbers, typography, captions, labels, or written content visible anywhere in the image. inspired by: ${prompt}`,
+      parameters: {
+        negative_prompt: "text, words, letters, typography, writing, alphabet, numbers, symbols, captions, titles, labels, signs, messages, quotes, phrases, fonts, watermarks, logos, written content, inscriptions, banners, posters with text, billboards"
+      }
     });
 
     // Convert blob to base64

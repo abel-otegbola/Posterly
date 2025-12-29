@@ -43,7 +43,7 @@ export default function CreatePosterPage() {
         const res = await fetch("/api/generate-text", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt: buildEnhancedPrompt() }),
+            body: JSON.stringify({ prompt: buildEnhancedPrompt(), theme, colorScheme }),
         });
 
         const data = await res.json();
@@ -93,8 +93,7 @@ export default function CreatePosterPage() {
                 <p className="my-4">Use one of the most common prompts below or type your own to begin.</p>
 
                 {/* previous prompts */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                    
+                <div className="grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-2 mb-4">
                     { 
                     [
                         { text: "Promote our grand opening with exclusive discounts", icon: <StorefrontIcon /> },
@@ -104,7 +103,7 @@ export default function CreatePosterPage() {
                     ].map((prompt, index) => (
                         <button 
                             key={index} 
-                            className="md:max-w-[200px] flex gap-[60px] flex-col justify-between rounded-[12px] border border-gray-500/[0.2] p-4 cursor-pointer hover:shadow-lg bg-white"
+                            className="md:max-w-[200px] flex md:gap-[60px] gap-[30px] flex-col justify-between rounded-[12px] border border-gray-500/[0.2] p-4 cursor-pointer hover:shadow-lg bg-white"
                             onClick={() => setPrompt(prompt.text)}
                         > 
                             <p className="text-[12px] text-start">{prompt.text}</p>
