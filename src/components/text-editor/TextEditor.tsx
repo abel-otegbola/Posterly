@@ -10,7 +10,7 @@ export interface TextStyle {
     bgColor: string;
     x: number;
     y: number;
-    width: number;
+    width: string | number;
     fontWeight?: string;
     textTransform?: string;
     letterSpacing?: string;
@@ -89,39 +89,42 @@ interface TextEditorProps {
 }
 
 export default function TextEditor({ backgroundImage, initialTexts, initialPrompt = "", onClose, onRegenerateBackground }: TextEditorProps) {
-    const [textStyles, setTextStyles] = useState<TextStyle[]>([]);
+    const [currentTemplate, setCurrentTemplate] = useState(0);
+
+    const getInitialTextStyles = (texts = initialTexts, templateIdx = currentTemplate) => {
+        if (!texts) return [];
+        const template = POSTER_TEMPLATES[templateIdx];
+        const contents = [
+            texts.headline,
+            texts.subheadline,
+            texts.bodyText,
+            texts.additionalInfo
+        ];
+        return template.styles.map((style, index) => ({
+            ...style,
+            content: contents[index] || ""
+        }));
+    };
+
+    const [textStyles, setTextStyles] = useState<TextStyle[]>(() => getInitialTextStyles());
     const [selectedTextIndex, setSelectedTextIndex] = useState<number | null>(null);
     const [showEditor, setShowEditor] = useState(false);
     const [show, setShow] = useState("Texts");
     const [isRegenerating, setIsRegenerating] = useState(false);
-    const [currentTemplate, setCurrentTemplate] = useState(0);
-
-    // Update text styles when initialTexts changes
-    useEffect(() => {
-        if (initialTexts) {
-            applyTemplate(currentTemplate);
-        }
-    }, [initialTexts]);
 
     const applyTemplate = (templateIndex: number) => {
         if (!initialTexts) return;
-        
-        const template = POSTER_TEMPLATES[templateIndex];
-        const contents = [
-            initialTexts.headline,
-            initialTexts.subheadline,
-            initialTexts.bodyText,
-            initialTexts.additionalInfo
-        ];
-
-        const newStyles = template.styles.map((style, index) => ({
-            ...style,
-            content: contents[index] || ""
-        }));
-
-        setTextStyles(newStyles);
+        setTextStyles(getInitialTextStyles(initialTexts, templateIndex));
         setCurrentTemplate(templateIndex);
     };
+
+    // Update text styles when initialTexts or currentTemplate changes
+    useEffect(() => {
+        if (initialTexts) {
+            setTextStyles(getInitialTextStyles(initialTexts, currentTemplate));
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [initialTexts, currentTemplate]);
 
     const updateTextStyle = (index: number, updates: Partial<TextStyle>) => {
         const newStyles = [...textStyles];
@@ -323,7 +326,7 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
                                 type="range"
                                 min="100"
                                 max="800"
-                                value={parseInt(textStyles[selectedTextIndex].width || '400')}
+                                value={parseInt(textStyles[selectedTextIndex].width.toString() || '400')}
                                 onChange={(e) => updateTextStyle(selectedTextIndex, { width: `${e.target.value}px` })}
                                 className="w-full"
                             />
