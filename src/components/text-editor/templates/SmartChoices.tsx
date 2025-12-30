@@ -13,7 +13,7 @@ export const SmartChoicesTemplate: Omit<TextStyle, 'content'>[] = [
         letterSpacing: "normal", 
         fontFamily: "Open Sans",
         textAlign: "left",
-        zIndex: 9,
+        zIndex: 20,
         styleClass: "text-soft-glow"
     },
     { 
@@ -28,7 +28,7 @@ export const SmartChoicesTemplate: Omit<TextStyle, 'content'>[] = [
         letterSpacing: "normal", 
         fontFamily: "Poppins",
         textAlign: "left",
-        zIndex: 3,
+        zIndex: 20,
         styleClass: "text-soft-glow"
     },
     { 
@@ -43,7 +43,7 @@ export const SmartChoicesTemplate: Omit<TextStyle, 'content'>[] = [
         letterSpacing: "normal", 
         fontFamily: "Montserrat",
         textAlign: "left",
-        zIndex: 10
+        zIndex: 20
     },
     { 
         fontSize: 10, 
@@ -57,7 +57,7 @@ export const SmartChoicesTemplate: Omit<TextStyle, 'content'>[] = [
         letterSpacing: "normal", 
         fontFamily: "Lato",
         textAlign: "center",
-        zIndex: 2,
+        zIndex: 20,
         styleClass: "text-glass"
     }
 ];
