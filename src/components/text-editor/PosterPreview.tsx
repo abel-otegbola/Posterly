@@ -5,8 +5,7 @@ import Button from "../button/Button";
 import { TextStyle, Shape } from "./TextEditor";
 import Draggable from "react-draggable";
 import { useMemo, useRef, useState } from "react";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
+import domtoimage from "dom-to-image-more";
 
 interface PosterPreviewProps {
     backgroundImage: string;
@@ -61,23 +60,45 @@ export default function PosterPreview({
         
         setIsExporting(true);
         try {
-            const canvas = await html2canvas(posterRef.current, {
-                scale: 2,
-                useCORS: true,
-                logging: false,
-                backgroundColor: null,
-                allowTaint: true,
-                foreignObjectRendering: false,
-                imageTimeout: 0,
-                ignoreElements: (element) => {
-                    // Ignore elements that might cause issues
-                    return element.classList?.contains('hover:outline') || false;
+            // Temporarily hide all outlines by setting inline styles
+            const elementsWithOutline = posterRef.current.querySelectorAll('.outline, [class*="outline-"]');
+            const originalStyles: { element: HTMLElement; outline: string; outlineWidth: string; outlineColor: string }[] = [];
+            
+            elementsWithOutline.forEach((el) => {
+                const htmlEl = el as HTMLElement;
+                originalStyles.push({
+                    element: htmlEl,
+                    outline: htmlEl.style.outline,
+                    outlineWidth: htmlEl.style.outlineWidth,
+                    outlineColor: htmlEl.style.outlineColor
+                });
+                htmlEl.style.outline = 'none';
+                htmlEl.style.outlineWidth = '0';
+                htmlEl.style.outlineColor = 'transparent';
+            });
+            
+            const dataUrl = await domtoimage.toPng(posterRef.current, {
+                quality: 1,
+                width: posterRef.current.offsetWidth * 2,
+                height: posterRef.current.offsetHeight * 2,
+                style: {
+                    transform: 'scale(2)',
+                    transformOrigin: 'top left',
+                    width: posterRef.current.offsetWidth + 'px',
+                    height: posterRef.current.offsetHeight + 'px'
                 }
+            });
+            
+            // Restore original outline styles
+            originalStyles.forEach(({ element, outline, outlineWidth, outlineColor }) => {
+                element.style.outline = outline;
+                element.style.outlineWidth = outlineWidth;
+                element.style.outlineColor = outlineColor;
             });
             
             const link = document.createElement('a');
             link.download = `poster-${Date.now()}.png`;
-            link.href = canvas.toDataURL('image/png');
+            link.href = dataUrl;
             link.click();
         } catch (error) {
             console.error('Export error:', error);
@@ -87,39 +108,7 @@ export default function PosterPreview({
         }
     };
 
-    const exportAsPDF = async () => {
-        if (!posterRef.current) return;
-        
-        setIsExporting(true);
-        try {
-            const canvas = await html2canvas(posterRef.current, {
-                scale: 2,
-                useCORS: true,
-                logging: false,
-                backgroundColor: null,
-                allowTaint: true,
-                foreignObjectRendering: false,
-                imageTimeout: 0,
-                ignoreElements: (element) => {
-                    return element.classList?.contains('hover:outline') || false;
-                }
-            });
-            
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF({
-                orientation: 'landscape',
-                unit: 'px',
-                format: [canvas.width, canvas.height]
-            });
-            
-            pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-            pdf.save(`poster-${Date.now()}.pdf`);
-        } catch (error) {
-            console.error('Export error:', error);
-        } finally {
-            setIsExporting(false);
-        }
-    };
+
 
     const handleContainerClick = (e: React.MouseEvent) => {
         // Deselect if clicking on the container or background image
@@ -245,9 +234,6 @@ export default function PosterPreview({
             <div className="flex gap-2 mt-2">
                 <Button size="small" variant="secondary" onClick={exportAsPNG} disabled={isExporting}>
                     {isExporting ? <SpinnerIcon className="animate-spin" /> : <DownloadIcon />} Export PNG
-                </Button>
-                <Button size="small" variant="secondary" onClick={exportAsPDF} disabled={isExporting}>
-                    {isExporting ? <SpinnerIcon className="animate-spin" /> : <DownloadIcon />} Export PDF
                 </Button>
             </div>
         </div>

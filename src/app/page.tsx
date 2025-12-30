@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main className="bg-[url('/bg.svg')] bg-cover bg-top min-h-screen flex flex-col">
       <header className="flex justify-between 2xl:p-8 md:p-6 p-4 items-center">
-        <h1>Posterly</h1>
+        <h1 className="font-semibold text-[16px]">Posterly</h1>
 
         <Button variant="secondary" href="/create">Create</Button>
       </header>
@@ -20,7 +20,7 @@ export default function Home() {
         </p>
 
         <div className="relative">
-          <div className="absolute dark:top-[20%] top-[5%] left-[6%] w-[88%] dark:h-[60%] h-[90%] z-[-1] btn-bg p-2 backdrop-blur-[15px] rounded-[12px] bg-opacity-80 ">
+          <div className="absolute dark:top-[5%] top-[5%] left-[1%] w-[98%] dark:h-[90%] h-[90%] z-[-1] btn-bg p-2 backdrop-blur-[15px] rounded-[12px] bg-opacity-80 ">
           </div>
           <Button className="z-2" href="/create">Get Started for free</Button>
         </div>

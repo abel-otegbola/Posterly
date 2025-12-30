@@ -2,7 +2,7 @@
 import Button from "@/components/button/Button";
 import Dropdown from "@/components/dropdown/dropdown";
 import TextEditor from "@/components/text-editor/TextEditor";
-import { StarFourIcon, StorefrontIcon, ConfettiIcon, RocketLaunchIcon, HeartIcon, SpinnerIcon } from "@phosphor-icons/react";
+import { StarFourIcon, NewspaperIcon, LightningIcon, HeartIcon, SparkleIcon, SpinnerIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 
 export default function CreatePosterPage() {
@@ -20,6 +20,7 @@ export default function CreatePosterPage() {
     const [loading, setLoading] = useState(false);
     const [loadingTexts, setLoadingTexts] = useState(false);
     const [themeColor, setThemeColor] = useState<string | null>(null);
+    const [template, setTemplate] = useState("Mininmal Editorial");
     
     // Generate theme color based on color scheme and theme
     const generateThemeColor = (): string => {
@@ -39,7 +40,17 @@ export default function CreatePosterPage() {
     };
     
     const buildEnhancedPrompt = () => {
-        return `${prompt}. Theme: ${theme}, Text style: ${textStyle}, Color scheme: ${colorScheme}`;
+        if (template === "Mininmal Editorial") {
+            return `Ultra minimalist ${theme} editorial background inspired by the theme: ${prompt}. 70% negative space, 30% bautiful man or woman, professional and is good fit for ${prompt} and positioned at the right or left edge or far corner. The subject should fade into the background using thick mist, fog, soft blur, or atmospheric haze until almost invisible. The composition must be dominated by vast empty space. Use smooth gradients or barely-there atmospheric textures. Maximum simplicity, clean, modern, poetic, editorial art direction. Color palette: extremely muted, neutral, monochromatic calm tones. Lighting: soft, diffused, barely visible. No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks.`;
+        } else if (template === "Bold Modern") {
+            return `Modern bold ${theme} background inspired by the theme: ${prompt}. 70% negative space, 30% subject. Include a small to medium subject that represents the theme. The subject should be compact, placed at the edge or corner of the canvas with vast empty space around it. Use dramatic lighting with clear contrast but keep the subject small relative to the canvas. Background should be mostly empty with smooth gradients or clean solid colors. Modern, confident, minimal visual style. Color palette: bold or high-contrast tones with lots of breathing room. Lighting: cinematic, directional, dramatic. No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks.`;
+        } else if (template === "Soft Lifestyle") {
+            return `Soft lifestyle ${theme} background inspired by the theme: ${prompt}. 80% negative space, 20% subject. Include a very gentle, minimal natural subject that subtly represents the theme. The subject should be very small and placed at the bottom or far edge of the canvas with massive amounts of empty space. Heavily blend the subject into the background using natural light, extreme shallow depth of field, or soft blur until barely visible. The background should be mostly plain, calm, and empty. Use smooth gradients and minimal textures. Lifestyle, airy, spacious modern aesthetic. Color palette: warm, earthy, pastel, or neutral tones with maximum breathing room. Lighting: soft daylight, natural, diffused. No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks.`;
+        } else if (template === "Conceptual/Abstract") {
+            return `Conceptual abstract ${theme} background inspired by the theme: ${prompt}. 85% negative space, 15% subject. Represent the theme using barely visible symbolic or abstract visual elements. The subject must be minimal, heavily obscured, and mostly blended into vast empty space. Use heavy atmospheric effects such as thick fog, smoke, blur, or soft distortion to create maximum emptiness. Composition should feel extremely open, spacious, artistic, and meditative. Dreamlike, poetic, ultra-minimal modern visual direction. Color palette: expressive, moody, or monochrome with vast empty areas. Lighting: experimental, soft, or surreal. No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks.`;
+        } else {
+            return prompt;
+        }
     };
     
     const fetchImage = async () => {
@@ -117,24 +128,25 @@ export default function CreatePosterPage() {
             <div className="flex flex-col">
                 <h1 className="bg-gradient-to-r from-black via-primary to-primary bg-clip-text text-transparent 2xl:text-[32px] md:text-[28px] text-[20px] font-bold leading-[28px]">Hi there,</h1>
                 <h1 className="bg-gradient-to-r from-black via-primary to-primary bg-clip-text text-transparent 2xl:text-[32px] md:text-[28px] text-[20px] font-bold leading-[28px]">Ready to create your poster?</h1>
-                <p className="my-4">Use one of the most common prompts below or type your own to begin.</p>
+                <p className="my-4">Select one of the template below and add the poster text to start creating</p>
 
-                {/* previous prompts */}
+                {/* poster templates */}
                 <div className="grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-2 mb-4">
                     { 
                     [
-                        { text: "Promote our grand opening with exclusive discounts", icon: <StorefrontIcon /> },
-                        { text: "Celebrate summer festival with vibrant colors", icon: <ConfettiIcon /> },
-                        { text: "Announce our new product launch to customers", icon: <RocketLaunchIcon /> },
-                        { text: "Support our charity event for a good cause", icon: <HeartIcon /> },
-                    ].map((prompt, index) => (
+                        { name: "Mininmal Editorial", icon: <NewspaperIcon />, description: "Best for: Brands, announcements, quotes, tech, exhibitions" },
+                        { name: "Bold Modern", icon: <LightningIcon />, description: "Best for: Events, sales, promotions, music, nightlife" },
+                        { name: "Soft Lifestyle", icon: <HeartIcon />, description: "Best for: Wellness, beauty, lifestyle, fashion, health" },
+                        { name: "Conceptual/Abstract", icon: <SparkleIcon />, description: "Best for: Art, creativity, abstract concepts, ideas" },
+                    ].map((element, index) => (
                         <button 
                             key={index} 
-                            className="md:max-w-[200px] flex md:gap-[60px] gap-[30px] flex-col justify-between rounded-[12px] border border-gray-500/[0.2] p-4 cursor-pointer hover:shadow-lg bg-white"
-                            onClick={() => setPrompt(prompt.text)}
+                            className={`md:max-w-[200px] min-w-[180px] flex md:gap-[60px] gap-[30px] flex-col justify-between rounded-[12px] border border-gray-500/[0.2] p-4 cursor-pointer hover:shadow-lg bg-white duration-300 ${element.name === template ? "border-primary shadow-md text-primary" : ""}`}
+                            onClick={() => setTemplate(element.name)}
+                            title={element.description}
                         > 
-                            <p className="text-[12px] text-start">{prompt.text}</p>
-                            <p className="" >{prompt.icon}</p>
+                            <p className="text-[12px] text-start">{element.name}</p>
+                            <p className="" >{element.icon}</p>
                         </button>
                     ))}
                 </div>
