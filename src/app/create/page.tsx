@@ -40,14 +40,20 @@ export default function CreatePosterPage() {
     };
     
     const buildEnhancedPrompt = () => {
+        const themeDirection = theme === "Dark" 
+            ? "Extremely dark, deep black or charcoal background dominating 80-90% of the canvas with minimal lighting. Very dark tones throughout."
+            : theme === "Light" 
+            ? "Pure white or very light cream background dominating 80-90% of the canvas. Bright, airy, minimal shadows. Very light tones throughout."
+            : "Clean, plain, solid color background with smooth gradients.";
+        
         if (template === "Mininmal Editorial") {
-            return `Ultra minimalist ${theme} editorial background inspired by the theme: ${prompt}. 70% negative space, 30% bautiful man or woman, professional and is good fit for ${prompt} and positioned at the right or left edge or far corner. The subject should fade into the background using thick mist, fog, soft blur, or atmospheric haze until almost invisible. The composition must be dominated by vast empty space. Use smooth gradients or barely-there atmospheric textures. Maximum simplicity, clean, modern, poetic, editorial art direction. Color palette: extremely muted, neutral, monochromatic calm tones. Lighting: soft, diffused, barely visible. No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks.`;
+            return `Photorealistic, ultra minimalist ${theme} editorial background for: ${prompt}. ${themeDirection} 70% plain empty background, 30% realistic beautiful professional person perfectly matching ${prompt}, positioned at right or left edge or corner. Subject must blend seamlessly into plain background using soft natural fade, atmospheric depth, or gentle blur - no harsh edges. Plain background only - absolutely no decorative elements, patterns, textures, or objects. Maximum empty space. Professional photography style. Hyper-realistic, natural lighting, smooth color transitions. No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks, no graphic elements.`;
         } else if (template === "Bold Modern") {
-            return `Modern bold ${theme} background inspired by the theme: ${prompt}. 70% negative space, 30% subject. Include a small to medium subject that represents the theme. The subject should be compact, placed at the edge or corner of the canvas with vast empty space around it. Use dramatic lighting with clear contrast but keep the subject small relative to the canvas. Background should be mostly empty with smooth gradients or clean solid colors. Modern, confident, minimal visual style. Color palette: bold or high-contrast tones with lots of breathing room. Lighting: cinematic, directional, dramatic. No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks.`;
+            return `Photorealistic modern bold ${theme} background for: ${prompt}. ${themeDirection} 70% plain empty background, 30% realistic subject representing the theme. Subject compact, placed at edge or corner with vast plain empty space. Subject blends naturally into plain background with professional lighting. Plain solid background only - no decorative elements, patterns, or extra objects. Modern, clean, realistic photography. Dramatic realistic lighting, natural color blending. No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks, no graphic elements.`;
         } else if (template === "Soft Lifestyle") {
-            return `Soft lifestyle ${theme} background inspired by the theme: ${prompt}. 80% negative space, 20% subject. Include a very gentle, minimal natural subject that subtly represents the theme. The subject should be very small and placed at the bottom or far edge of the canvas with massive amounts of empty space. Heavily blend the subject into the background using natural light, extreme shallow depth of field, or soft blur until barely visible. The background should be mostly plain, calm, and empty. Use smooth gradients and minimal textures. Lifestyle, airy, spacious modern aesthetic. Color palette: warm, earthy, pastel, or neutral tones with maximum breathing room. Lighting: soft daylight, natural, diffused. No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks.`;
+            return `Photorealistic soft lifestyle ${theme} background for: ${prompt}. ${themeDirection} 80% plain empty background, 20% realistic natural subject subtly representing theme. Subject very small, at bottom or far edge with massive plain empty space. Subject blends seamlessly into plain background using natural soft focus and depth of field - no harsh separation. Plain background only - no decorative elements, patterns, textures, or objects. Lifestyle photography, hyper-realistic. Natural soft daylight, smooth realistic blending. No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks, no graphic elements.`;
         } else if (template === "Conceptual/Abstract") {
-            return `Conceptual abstract ${theme} background inspired by the theme: ${prompt}. 85% negative space, 15% subject. Represent the theme using barely visible symbolic or abstract visual elements. The subject must be minimal, heavily obscured, and mostly blended into vast empty space. Use heavy atmospheric effects such as thick fog, smoke, blur, or soft distortion to create maximum emptiness. Composition should feel extremely open, spacious, artistic, and meditative. Dreamlike, poetic, ultra-minimal modern visual direction. Color palette: expressive, moody, or monochrome with vast empty areas. Lighting: experimental, soft, or surreal. No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks.`;
+            return `Photorealistic conceptual ${theme} background for: ${prompt}. ${themeDirection} 85% plain empty background, 15% realistic symbolic element barely visible. Minimal realistic subject heavily blended into vast plain empty space using natural atmospheric effects. Plain background only - no decorative elements, patterns, textures, or extra objects. Photographic, realistic, meditative. Natural experimental lighting, realistic soft blending. No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks, no graphic elements.`;
         } else {
             return prompt;
         }
@@ -126,8 +132,8 @@ export default function CreatePosterPage() {
             :
 
             <div className="flex flex-col">
-                <h1 className="bg-gradient-to-r from-black via-primary to-primary bg-clip-text text-transparent 2xl:text-[32px] md:text-[28px] text-[20px] font-bold leading-[28px]">Hi there,</h1>
-                <h1 className="bg-gradient-to-r from-black via-primary to-primary bg-clip-text text-transparent 2xl:text-[32px] md:text-[28px] text-[20px] font-bold leading-[28px]">Ready to create your poster?</h1>
+                <h1 className="bg-gradient-to-r from-black via-primary to-[#D9EF34] bg-clip-text text-transparent 2xl:text-[32px] md:text-[28px] text-[20px] font-bold leading-[28px]">Hi there,</h1>
+                <h1 className="bg-gradient-to-r from-black via-primary to-[#D9EF34] bg-clip-text text-transparent 2xl:text-[32px] md:text-[28px] text-[20px] font-bold leading-[28px]">Ready to create your poster?</h1>
                 <p className="my-4">Select one of the template below and add the poster text to start creating</p>
 
                 {/* poster templates */}
@@ -141,7 +147,7 @@ export default function CreatePosterPage() {
                     ].map((element, index) => (
                         <button 
                             key={index} 
-                            className={`md:max-w-[200px] min-w-[180px] flex md:gap-[60px] gap-[30px] flex-col justify-between rounded-[12px] border border-gray-500/[0.2] p-4 cursor-pointer hover:shadow-lg bg-white duration-300 ${element.name === template ? "border-primary shadow-md text-primary" : ""}`}
+                            className={`md:max-w-[200px] sm:min-w-[180px] flex md:gap-[60px] gap-[30px] flex-col justify-between rounded-[12px] border border-gray-500/[0.2] p-4 cursor-pointer hover:shadow-lg bg-white duration-300 ${element.name === template ? "border-primary shadow-md text-primary" : ""}`}
                             onClick={() => setTemplate(element.name)}
                             title={element.description}
                         > 
@@ -160,7 +166,7 @@ export default function CreatePosterPage() {
                         value={prompt}
                         onChange={(e) => setPrompt(e.target.value)}
                     ></textarea>
-                    <div className="flex justify-between items-end">
+                    <div className="flex flex-wrap gap-4 justify-between items-end">
                         {/* Customization Options */}
                         <div className="grid grid-cols-3 gap-2">
                             <Dropdown
@@ -210,7 +216,7 @@ export default function CreatePosterPage() {
                                 ]}
                             />
                         </div>
-                        <Button size="small" onClick={generatePoster} disabled={loading || loadingTexts}>
+                        <Button className="sm:w-auto w-full" onClick={generatePoster} disabled={loading || loadingTexts}>
                             { (loading || loadingTexts) ? <SpinnerIcon className="animate-spin" /> : <><StarFourIcon /> Generate</> }
                         </Button>
                     </div>

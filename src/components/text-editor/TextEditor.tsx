@@ -417,7 +417,7 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
             </div>
             
             {/* Poster Preview */}
-            <div className="flex justify-center items-center flex-1 w-full px-auto">
+            <div className="flex justify-center items-center flex-1 w-full px-auto min-w-[564px]">
                 <PosterPreview
                     backgroundImage={backgroundImage}
                     textStyles={textStyles}
