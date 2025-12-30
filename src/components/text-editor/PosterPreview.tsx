@@ -5,7 +5,6 @@ import Button from "../button/Button";
 import { TextStyle, Shape } from "./TextEditor";
 import Draggable from "react-draggable";
 import { useMemo, useRef, useState } from "react";
-import domtoimage from "dom-to-image-more";
 
 interface PosterPreviewProps {
     backgroundImage: string;
@@ -60,6 +59,9 @@ export default function PosterPreview({
         
         setIsExporting(true);
         try {
+            // Dynamically import dom-to-image-more only when needed (client-side)
+            const domtoimage = (await import('dom-to-image-more')).default;
+            
             // Temporarily hide all outlines by setting inline styles
             const elementsWithOutline = posterRef.current.querySelectorAll('.outline, [class*="outline-"]');
             const originalStyles: { element: HTMLElement; outline: string; outlineWidth: string; outlineColor: string }[] = [];
