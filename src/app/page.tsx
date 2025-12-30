@@ -27,7 +27,7 @@ export default function Home() {
       </section>
 
       <div className="p-4">
-        <Image src="/hero-bg.png" alt="Posterly app mockup" width={1920} height={1080} className="md:w-[75%] w-full h-auto mt-auto mx-auto" />
+        <Image src="/hero-bg-2.png" alt="Posterly app mockup" width={1920} height={1080} className="md:w-[75%] w-full h-auto mt-auto mx-auto" />
       </div>
     </main>
   );

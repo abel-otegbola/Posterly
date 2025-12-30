@@ -46,52 +46,12 @@ interface TextEditorProps {
         additionalInfo: string;
     };
     initialPrompt?: string;
-    themeColor?: string;
     onClose?: () => void;
     onRegenerateBackground?: (prompt: string) => Promise<void>;
 }
 
-export default function TextEditor({ backgroundImage, initialTexts, initialPrompt = "", themeColor, onClose, onRegenerateBackground }: TextEditorProps) {
+export default function TextEditor({ backgroundImage, initialTexts, initialPrompt = "", onClose, onRegenerateBackground }: TextEditorProps) {
     const [currentTemplate, setCurrentTemplate] = useState(0);
-
-    // Get complementary text colors based on theme color
-    const getTextColorsFromTheme = (themeColor?: string): string[] => {
-        if (!themeColor) {
-            return ["#000000", "#1a1a1a", "#333333", "#4a4a4a"];
-        }
-
-        // Convert hex to RGB
-        const hexToRgb = (hex: string) => {
-            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        };
-
-        // Calculate relative luminance
-        const getLuminance = (r: number, g: number, b: number) => {
-            const [rs, gs, bs] = [r, g, b].map(c => {
-                c = c / 255;
-                return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
-            });
-            return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
-        };
-
-        const rgb = hexToRgb(themeColor);
-        if (!rgb) return ["#000000", "#1a1a1a", "#333333", "#4a4a4a"];
-
-        const luminance = getLuminance(rgb.r, rgb.g, rgb.b);
-
-        // If theme color is light, use dark text colors
-        if (luminance > 0.5) {
-            return ["#000000", "#1a1a1a", "#2d2d2d", "#404040"];
-        } else {
-            // If theme color is dark, use light text colors
-            return ["#ffffff", "#f5f5f5", "#e8e8e8", "#d9d9d9"];
-        }
-    };
 
     const getInitialTextStyles = (texts = initialTexts) => {
         if (!texts) return [];
@@ -104,14 +64,12 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
         
         // Use Smart Choices template (index 0) for initial load
         const template = POSTER_TEMPLATES[0];
-        const textColors = getTextColorsFromTheme(themeColor);
         
         return contents.map((content, index) => {
             const styleIdx = index % template.styles.length;
             return {
                 ...template.styles[styleIdx],
                 content: content || "",
-                color: textColors[index % textColors.length] // Apply theme-based color
             };
         });
     };
@@ -162,6 +120,10 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
         
         setCurrentTemplate(templateIndex);
     };
+
+    useEffect(() => {
+        console.log(textStyles, shapes)
+    }, [textStyles, shapes]);
 
     // Update text styles when initialTexts changes
     useEffect(() => {
@@ -341,10 +303,10 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
                                         setSelectedShapeId(null);
                                         setShowEditor(true);
                                     }}
-                                    className={`flex items-center gap-2 p-3 rounded-[12px] cursor-pointer hover:bg-gray-100/[0.5] ${selectedTextIndex === index ? 'bg-gray-100/[0.5] border border-gray-500/[0.1]' : 'bg-white'}`}
+                                    className={`flex items-center justify-between gap-2 p-3 rounded-[12px] cursor-pointer hover:bg-gray-100/[0.5] ${selectedTextIndex === index ? 'bg-gray-100/[0.5] border border-gray-500/[0.1]' : 'bg-white'}`}
                                 >
                                     <p className="text-gray-600 truncate">{textStyle.content}</p>
-                                    <p className="w-4"><EyeIcon /></p>
+                                    <p className="w-2"><EyeIcon /></p>
                                 </div>
                             ))}
                             
@@ -493,18 +455,18 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
 
                         <div>
                             <label className="block text-[10px] font-medium mb-1">Text Color</label>
-                            <div className="grid grid-cols-3 gap-2">
-                                <Input
+                            <div className="flex gap-2">
+                                <input
                                     type="color"
                                     value={textStyles[selectedTextIndex].color.startsWith('rgba') ? '#000000' : textStyles[selectedTextIndex].color}
                                     onChange={(e) => updateTextStyle(selectedTextIndex, { color: e.target.value })}
-                                    className="col-span-1 h-6 py-2 rounded-[12px]"
+                                    className="h-6 w-6 rounded-[12px]"
                                 />
                                 <input
                                     type="text"
                                     value={textStyles[selectedTextIndex].color}
                                     onChange={(e) => updateTextStyle(selectedTextIndex, { color: e.target.value })}
-                                    className="col-span-2 py-1 px-3 border border-gray-500/[0.2] rounded-[12px] outline-none"
+                                    className="w-[calc(100%-1.5rem)] py-1 px-3 border border-gray-500/[0.2] rounded-[12px] outline-none"
                                     placeholder="hex or rgba()"
                                 />
                             </div>
@@ -512,18 +474,18 @@ export default function TextEditor({ backgroundImage, initialTexts, initialPromp
 
                         <div>
                             <label className="block text-[10px] font-medium mb-1">Background Color</label>
-                            <div className="grid grid-cols-3 gap-2">
+                            <div className="flex gap-2">
                                 <input
                                     type="color"
                                     value={textStyles[selectedTextIndex].bgColor === 'transparent' ? '#ffffff' : textStyles[selectedTextIndex].bgColor.startsWith('rgba') ? '#ffffff' : textStyles[selectedTextIndex].bgColor}
                                     onChange={(e) => updateTextStyle(selectedTextIndex, { bgColor: e.target.value })}
-                                    className="col-span-1 h-6 rounded-[12px]"
+                                    className="h-6 w-6 rounded-[12px]"
                                 />
                                 <input
                                     type="text"
                                     value={textStyles[selectedTextIndex].bgColor}
                                     onChange={(e) => updateTextStyle(selectedTextIndex, { bgColor: e.target.value })}
-                                    className="col-span-2 py-1 px-3 border border-gray-500/[0.2] rounded-[12px] outline-none"
+                                    className="w-[calc(100%-1.5rem)] py-1 px-3 border border-gray-500/[0.2] rounded-[12px] outline-none"
                                     placeholder="transparent or rgba()"
                                 />
                             </div>
