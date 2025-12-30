@@ -1,4 +1,5 @@
 import Button from "@/components/button/Button";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -10,7 +11,7 @@ export default function Home() {
       </header>
 
       <section className="flex flex-col items-center 2xl:gap-8 md:gap-6 gap-4 2xl:p-12 md:p-10 p-6">
-        <h2 className="2xl:text-[48px] md:text-[40px] text-[32px] max-w-2xl md:leading-[60px] leading-[40px] font-semibold text-center">
+        <h2 className="2xl:text-[48px] md:text-[40px] text-[32px] max-w-2xl md:leading-[40px] leading-[40px] font-semibold text-center">
           AI-Powered Poster Generator for Your Business
         </h2>
 
@@ -24,6 +25,10 @@ export default function Home() {
           <Button className="z-2" href="/create">Get Started for free</Button>
         </div>
       </section>
+
+      <div className="p-4">
+        <Image src="/hero-bg.png" alt="Posterly app mockup" width={1920} height={1080} className="md:w-[75%] w-full h-auto mt-auto mx-auto" />
+      </div>
     </main>
   );
 }

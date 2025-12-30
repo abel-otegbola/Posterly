@@ -24,14 +24,14 @@ export default function CreatePosterPage() {
     // Generate theme color based on color scheme and theme
     const generateThemeColor = (): string => {
         const colorPalettes: Record<string, string[]> = {
-            "Vibrant & Colorful": ["#FF6B6B", "#4ECDC4"],
-            "Soft Pastel": ["#FFB6C1", "#E0BBE4"],
-            "Monochrome": ["#2C3E50", "#7F8C8D"],
-            "Warm Tones": ["#E74C3C", "#F39C12"],
-            "Cool Tones": ["#3498DB", "#1ABC9C"],
-            "Neon & Bright": ["#00FFF0", "#FF00FF"],
-            "Earthy & Natural": ["#8B7355", "#8FBC8F"],
-            "Luxury Gold/Silver": ["#D4AF37", "#C0C0C0"]
+            "Vibrant & Colorful": ["#000000", "#333333"],
+            "Soft Pastel": ["#F5F5F5", "#E0E0E0"],
+            "Monochrome": ["#000000", "#FFFFFF"],
+            "Warm Tones": ["#666666", "#999999"],
+            "Cool Tones": ["#808080", "#CCCCCC"],
+            "Neon & Bright": ["#FFFFFF", "#000000"],
+            "Earthy & Natural": ["#8B8B8B", "#A9A9A9"],
+            "Luxury Gold/Silver": ["#D3D3D3", "#C0C0C0"]
         };
 
         const palette = colorPalettes[colorScheme] || colorPalettes["Vibrant & Colorful"];
