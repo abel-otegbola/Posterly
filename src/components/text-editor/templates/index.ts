@@ -4,7 +4,7 @@ import { GeometricBoldTemplate, GeometricBoldShapes } from "./GeometricBold";
 import { IntelligenceQuoteTemplate, IntelligenceQuoteShapes } from "./IntelligenceQuote";
 import { PlayfulSplitTemplate, PlayfulSplitShapes } from "./PlayfulSplit";
 import { ThreeDStackTemplate, ThreeDStackShapes } from "./ThreeDStack";
-import { TextStyle, Shape } from "../TextEditor";
+import { TextStyle, Shape } from "@/types/interfaces/editor";
 
 export interface PosterTemplate {
     name: string;

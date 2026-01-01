@@ -1,8 +1,48 @@
 import { NextResponse } from "next/server";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export async function POST(req: Request) {
   try {
     const { prompt } = await req.json();
+
+    // Initialize Google Generative AI with Gemini
+    // const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
+    
+    // Use Imagen 3 model for image generation
+    // const model = genAI.getGenerativeModel({ model: "gemini-3-pro-image-preview" });
+
+    // const result = await model.generateContent({
+    //   contents: [{
+    //     role: "user",
+    //     parts: [{ text: prompt }]
+    //   }],
+    //   generationConfig: {
+    //     temperature: 0.4,
+    //     topP: 0.95,
+    //     topK: 40,
+    //     maxOutputTokens: 8192,
+    //   }
+    // });
+
+    // const response = result.response;
+    // const imageData = response.candidates?.[0]?.content?.parts?.[0];
+
+    // if (!imageData) {
+    //   throw new Error("No image generated");
+    // }
+
+    // Convert the image data to base64
+    // let base64Image: string;
+    
+    // if ('inlineData' in imageData && imageData.inlineData?.data) {
+    //   base64Image = imageData.inlineData.data;
+    // } else {
+    //   throw new Error("Invalid image format received");
+    // }
+
+    // return NextResponse.json({
+    //   image: `data:image/png;base64,${base64Image}`,
+    // });
 
     // Generate image using Cloudflare Workers AI
     const response = await fetch(
@@ -35,19 +75,11 @@ export async function POST(req: Request) {
     return NextResponse.json({
       image: `data:image/png;base64,${base64Image}`,
     });
+    
   } catch (error) {
     console.error("Image generation error:", error);
     
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    
-    // Check if it's a rate limit or quota error
-    if (errorMessage.includes("free monthly usage limit") || errorMessage.includes("quota")) {
-      return NextResponse.json({ 
-        error: "Monthly usage limit reached", 
-        details: "The free tier limit for image generation has been reached. Please try again next month or upgrade to PRO for more usage.",
-        isQuotaError: true
-      }, { status: 429 });
-    }
     
     return NextResponse.json({ 
       error: "Image generation failed", 

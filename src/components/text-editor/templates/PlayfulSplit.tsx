@@ -1,4 +1,4 @@
-import { TextStyle, Shape } from "../TextEditor";
+import { TextStyle, Shape } from "@/types/interfaces/editor";
 
 export const PlayfulSplitTemplate: Omit<TextStyle, 'content'>[] = [
     { 

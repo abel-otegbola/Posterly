@@ -98,7 +98,7 @@ export default function CreatePosterPage() {
     }
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center gap-6 p-4 bg-gray-50">
+        <div className="min-h-screen flex flex-col gap-6 bg-gray-50">
             {backgroundImage ? 
                 <TextEditor 
                     backgroundImage={backgroundImage}
