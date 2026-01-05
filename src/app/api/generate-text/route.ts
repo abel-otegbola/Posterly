@@ -8,7 +8,10 @@ export async function POST(req: Request) {
     const { prompt } = await req.json();
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash-exp",
+      generationConfig: {
+        responseMimeType: "application/json",
+      },
     });
 
     const result = await model.generateContent(
@@ -72,6 +75,8 @@ export async function POST(req: Request) {
     const response = await result.response;
     const textContent = response.text();
     
+    console.log("Generated text:", textContent);
+    
     // Clean up the response to ensure it's valid JSON
     let cleanedText = textContent.trim();
     if (cleanedText.startsWith('```json')) {
@@ -81,7 +86,11 @@ export async function POST(req: Request) {
     }
     cleanedText = cleanedText.trim();
 
+    console.log("Cleaned text:", cleanedText);
+
     const posterText = JSON.parse(cleanedText);
+    
+    console.log("Parsed poster text:", posterText);
 
     return NextResponse.json({
       success: true,

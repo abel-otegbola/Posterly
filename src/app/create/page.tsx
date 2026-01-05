@@ -4,7 +4,6 @@ import Dropdown from "@/components/dropdown/dropdown";
 import TextEditor from "@/components/text-editor/TextEditor";
 import { StarFourIcon, NewspaperIcon, LightningIcon, HeartIcon, SparkleIcon, SpinnerIcon } from "@phosphor-icons/react";
 import { useState } from "react";
-import { generateImageWithPuter, generateTextWithPuter } from "@/lib/puterClient";
 import { GeneratedTexts } from "@/types/interfaces/editor";
 
 export default function CreatePosterPage() {
@@ -42,12 +41,17 @@ export default function CreatePosterPage() {
         setLoading(true);
         
         try {
-            // Use Puter directly from the client
-            const imageDataUrl = await generateImageWithPuter(
-                buildEnhancedPrompt(), 
-                'gemini-2.5-flash-image-preview' // or 'imagen-3' or 'dall-e-3'
-            );
-            setBackgroundImage(imageDataUrl);
+            const res = await fetch("/api/generate-image", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt: buildEnhancedPrompt() }),
+            });
+            const data = await res.json();
+            if (data.success) {
+                setBackgroundImage(data.imageUrl);
+            } else {
+                throw new Error(data.error || 'Image generation failed');
+            }
         } catch (error) {
             console.error('Failed to generate image:', error);
             alert('Image generation failed. Please try again.');
@@ -60,20 +64,17 @@ export default function CreatePosterPage() {
         setLoadingTexts(true);
         
         try {
-            // Option 1: Use Puter (free, no quota limits)
-            const generatedData = await generateTextWithPuter(buildEnhancedPrompt());
-            setPosterTexts(generatedData);
-            
-            // Option 2: Use Google Gemini API (if you have quota)
-            // const res = await fetch("/api/generate-text", {
-            //     method: "POST",
-            //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify({ prompt: buildEnhancedPrompt(), theme, colorScheme }),
-            // });
-            // const data = await res.json();
-            // if (data.success) {
-            //     setPosterTexts(data.texts);
-            // }
+            const res = await fetch("/api/generate-text", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt: buildEnhancedPrompt() }),
+            });
+            const data = await res.json();
+            if (data.success) {
+                setPosterTexts(data.texts);
+            } else {
+                throw new Error(data.error || 'Text generation failed');
+            }
         } catch (error) {
             console.error('Failed to generate texts:', error);
             alert('Text generation failed. Please try again.');
@@ -93,11 +94,17 @@ export default function CreatePosterPage() {
 
     const handleRegenerateBackground = async (customPrompt: string) => {
         try {
-            const imageDataUrl = await generateImageWithPuter(
-                customPrompt || buildEnhancedPrompt(),
-                'gemini-2.5-flash-image-preview'
-            );
-            setBackgroundImage(imageDataUrl);
+            const res = await fetch("/api/generate-image", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt: customPrompt || buildEnhancedPrompt() }),
+            });
+            const data = await res.json();
+            if (data.success) {
+                setBackgroundImage(data.imageUrl);
+            } else {
+                throw new Error(data.error || 'Background regeneration failed');
+            }
         } catch (error) {
             console.error('Failed to regenerate background:', error);
             alert('Background regeneration failed. Please try again.');
