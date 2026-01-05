@@ -38,10 +38,10 @@ export default function TextEditor({
         if (!initialTexts) return;
         const template = POSTER_TEMPLATES[templateIndex];
         const contents = [
-            initialTexts.headline,
-            initialTexts.subheadline,
-            initialTexts.bodyText,
-            initialTexts.additionalInfo
+            initialTexts.content.headline,
+            initialTexts.content.subheadline,
+            initialTexts.content.bodyText,
+            initialTexts.content.additionalInfo
         ];
         setTextStyles(template.styles.map((style, index) => ({
             ...style,

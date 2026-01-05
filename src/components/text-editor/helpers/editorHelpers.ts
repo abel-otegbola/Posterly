@@ -1,24 +1,81 @@
-import { TextStyle, Shape } from "@/types/interfaces/editor";
+import { TextStyle, Shape, GeneratedTexts } from "@/types/interfaces/editor";
 import { POSTER_TEMPLATES } from "../templates";
 
-export const getInitialTextStyles = (initialTexts?: {
-    headline: string;
-    subheadline: string;
-    bodyText: string;
-    additionalInfo: string;
-}): TextStyle[] => {
+export const getInitialTextStyles = (initialTexts?: GeneratedTexts): TextStyle[] => {
     if (!initialTexts) return [];
     
+    const { content, styles } = initialTexts;
     const contents = [
-        initialTexts.headline,
-        initialTexts.subheadline,
-        initialTexts.bodyText,
-        initialTexts.additionalInfo
+        content.headline,
+        content.subheadline,
+        content.bodyText,
+        content.additionalInfo
     ];
     
-    // Use Smart Choices template (index 0) for initial load
-    const template = POSTER_TEMPLATES[0];
+    // Use AI-generated styles if available, otherwise fall back to template
+    if (styles) {
+        return [
+            {
+                content: contents[0] || "",
+                fontSize: styles.headline.fontSize,
+                color: styles.headline.color,
+                bgColor: "transparent",
+                x: 50,
+                y: 50,
+                width: 80,
+                fontFamily: styles.headline.fontFamily,
+                fontWeight: styles.headline.fontWeight,
+                textTransform: styles.headline.textTransform,
+                letterSpacing: styles.headline.letterSpacing,
+                zIndex: 2
+            },
+            {
+                content: contents[1] || "",
+                fontSize: styles.subheadline.fontSize,
+                color: styles.subheadline.color,
+                bgColor: "transparent",
+                x: 50,
+                y: 150,
+                width: 70,
+                fontFamily: styles.subheadline.fontFamily,
+                fontWeight: styles.subheadline.fontWeight,
+                textTransform: styles.subheadline.textTransform,
+                letterSpacing: styles.subheadline.letterSpacing,
+                zIndex: 3
+            },
+            {
+                content: contents[2] || "",
+                fontSize: styles.bodyText.fontSize,
+                color: styles.bodyText.color,
+                bgColor: "transparent",
+                x: 50,
+                y: 220,
+                width: 60,
+                fontFamily: styles.bodyText.fontFamily,
+                fontWeight: styles.bodyText.fontWeight,
+                textTransform: styles.bodyText.textTransform,
+                letterSpacing: styles.bodyText.letterSpacing,
+                zIndex: 4
+            },
+            {
+                content: contents[3] || "",
+                fontSize: styles.additionalInfo.fontSize,
+                color: styles.additionalInfo.color,
+                bgColor: "transparent",
+                x: 50,
+                y: 280,
+                width: 50,
+                fontFamily: styles.additionalInfo.fontFamily,
+                fontWeight: styles.additionalInfo.fontWeight,
+                textTransform: styles.additionalInfo.textTransform,
+                letterSpacing: styles.additionalInfo.letterSpacing,
+                zIndex: 5
+            }
+        ];
+    }
     
+    // Fallback to template if no styles provided
+    const template = POSTER_TEMPLATES[0];
     return contents.map((content, index) => {
         const styleIdx = index % template.styles.length;
         return {

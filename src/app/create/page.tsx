@@ -4,16 +4,13 @@ import Dropdown from "@/components/dropdown/dropdown";
 import TextEditor from "@/components/text-editor/TextEditor";
 import { StarFourIcon, NewspaperIcon, LightningIcon, HeartIcon, SparkleIcon, SpinnerIcon } from "@phosphor-icons/react";
 import { useState } from "react";
+import { generateImageWithPuter, generateTextWithPuter } from "@/lib/puterClient";
+import { GeneratedTexts } from "@/types/interfaces/editor";
 
 export default function CreatePosterPage() {
     const [prompt, setPrompt] = useState("");
     const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
-    const [posterTexts, setPosterTexts] = useState<{
-        headline: string;
-        subheadline: string;
-        bodyText: string;
-        additionalInfo: string;
-    } | null>(null);
+    const [posterTexts, setPosterTexts] = useState<GeneratedTexts | null>(null);
     const [theme, setTheme] = useState("Modern");
     const [textStyle, setTextStyle] = useState("Professional");
     const [colorScheme, setColorScheme] = useState("Vibrant & Colorful");
@@ -44,35 +41,45 @@ export default function CreatePosterPage() {
     const fetchImage = async () => {
         setLoading(true);
         
-        const res = await fetch("/api/generate-image", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ 
-                prompt: buildEnhancedPrompt(), 
-                theme,
-                colorScheme,
-            }),
-        });
-
-        const data = await res.json();
-        console.log(data);
-        setBackgroundImage(data.image);
-        setLoading(false);
+        try {
+            // Use Puter directly from the client
+            const imageDataUrl = await generateImageWithPuter(
+                buildEnhancedPrompt(), 
+                'gemini-2.5-flash-image-preview' // or 'imagen-3' or 'dall-e-3'
+            );
+            setBackgroundImage(imageDataUrl);
+        } catch (error) {
+            console.error('Failed to generate image:', error);
+            alert('Image generation failed. Please try again.');
+        } finally {
+            setLoading(false);
+        }
     }
 
     const fetchTexts = async () => {
         setLoadingTexts(true);
-        const res = await fetch("/api/generate-text", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt: buildEnhancedPrompt(), theme, colorScheme }),
-        });
-
-        const data = await res.json();
-        if (data.success) {
-            setPosterTexts(data.texts);
+        
+        try {
+            // Option 1: Use Puter (free, no quota limits)
+            const generatedData = await generateTextWithPuter(buildEnhancedPrompt());
+            setPosterTexts(generatedData);
+            
+            // Option 2: Use Google Gemini API (if you have quota)
+            // const res = await fetch("/api/generate-text", {
+            //     method: "POST",
+            //     headers: { "Content-Type": "application/json" },
+            //     body: JSON.stringify({ prompt: buildEnhancedPrompt(), theme, colorScheme }),
+            // });
+            // const data = await res.json();
+            // if (data.success) {
+            //     setPosterTexts(data.texts);
+            // }
+        } catch (error) {
+            console.error('Failed to generate texts:', error);
+            alert('Text generation failed. Please try again.');
+        } finally {
+            setLoadingTexts(false);
         }
-        setLoadingTexts(false);
     }
 
     const generatePoster = async () => {
@@ -85,15 +92,15 @@ export default function CreatePosterPage() {
     }
 
     const handleRegenerateBackground = async (customPrompt: string) => {
-        const res = await fetch("/api/generate-image", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt: customPrompt || buildEnhancedPrompt() }),
-        });
-
-        const data = await res.json();
-        if (data.image) {
-            setBackgroundImage(data.image);
+        try {
+            const imageDataUrl = await generateImageWithPuter(
+                customPrompt || buildEnhancedPrompt(),
+                'gemini-2.5-flash-image-preview'
+            );
+            setBackgroundImage(imageDataUrl);
+        } catch (error) {
+            console.error('Failed to regenerate background:', error);
+            alert('Background regeneration failed. Please try again.');
         }
     }
 

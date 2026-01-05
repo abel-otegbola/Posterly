@@ -29,14 +29,56 @@ export interface Shape {
     zIndex?: number;
 }
 
+export interface PosterTextContent {
+    headline: string;
+    subheadline: string;
+    bodyText: string;
+    additionalInfo: string;
+}
+
+export interface PosterTextStyles {
+    headline: {
+        fontSize: number;
+        color: string;
+        fontFamily: string;
+        fontWeight: string;
+        textTransform?: string;
+        letterSpacing?: string;
+    };
+    subheadline: {
+        fontSize: number;
+        color: string;
+        fontFamily: string;
+        fontWeight: string;
+        textTransform?: string;
+        letterSpacing?: string;
+    };
+    bodyText: {
+        fontSize: number;
+        color: string;
+        fontFamily: string;
+        fontWeight: string;
+        textTransform?: string;
+        letterSpacing?: string;
+    };
+    additionalInfo: {
+        fontSize: number;
+        color: string;
+        fontFamily: string;
+        fontWeight: string;
+        textTransform?: string;
+        letterSpacing?: string;
+    };
+}
+
+export interface GeneratedTexts {
+    content: PosterTextContent;
+    styles: PosterTextStyles;
+}
+
 export interface TextEditorProps {
     backgroundImage: string;
-    initialTexts?: {
-        headline: string;
-        subheadline: string;
-        bodyText: string;
-        additionalInfo: string;
-    };
+    initialTexts?: GeneratedTexts;
     initialPrompt?: string;
     themeColor?: string;
     onClose?: () => void;
