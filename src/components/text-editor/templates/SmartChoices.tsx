@@ -2,25 +2,25 @@ import { TextStyle, Shape } from "@/types/interfaces/editor";
 
 export const SmartChoicesTemplate: Omit<TextStyle, 'content'>[] = [
     { 
-        fontSize: 24, 
-        color: "#ffffff", 
+        fontSize: 32, 
+        color: "#ffd561", 
         bgColor: "transparent", 
-        x: 198, 
-        y: 148, 
-        width: "100px", 
-        fontWeight: "700", 
+        x: 37, 
+        y: 81, 
+        width: "299px", 
+        fontWeight: "600", 
         textTransform: "capitalize", 
         letterSpacing: "normal", 
         fontFamily: "Open Sans",
         textAlign: "left",
         zIndex: 20,
-        styleClass: "text-soft-glow"
+        styleClass: "text-glass"
     },
     { 
         fontSize: 8, 
-        color: "#000000", 
+        color: "#ffffff", 
         bgColor: "transparent", 
-        x: 36, 
+        x: 37, 
         y: 38, 
         width: "200px", 
         fontWeight: "500", 
@@ -32,31 +32,32 @@ export const SmartChoicesTemplate: Omit<TextStyle, 'content'>[] = [
         styleClass: "text-soft-glow"
     },
     { 
-        fontSize: 8, 
+        fontSize: 13, 
         color: "#ffffff", 
-        bgColor: "rgba(200, 200, 200, 0.15)", 
-        x: 187, 
-        y: 204, 
-        width: "124px", 
-        fontWeight: "300", 
+        bgColor: "#1f1f1f", 
+        x: 28, 
+        y: 198, 
+        width: "280px", 
+        fontWeight: "500", 
         textTransform: "none", 
         letterSpacing: "normal", 
         fontFamily: "Montserrat",
         textAlign: "left",
-        zIndex: 20
+        zIndex: 20,
+        styleClass: "text-neon-soft"
     },
     { 
         fontSize: 10, 
-        color: "#000000", 
+        color: "#ffffff", 
         bgColor: "transparent", 
-        x: 63, 
-        y: 355, 
+        x: 37, 
+        y: 356, 
         width: "380px", 
         fontWeight: "400", 
         textTransform: "capitalize", 
         letterSpacing: "normal", 
         fontFamily: "Lato",
-        textAlign: "center",
+        textAlign: "left",
         zIndex: 20,
         styleClass: "text-glass"
     }
@@ -64,69 +65,14 @@ export const SmartChoicesTemplate: Omit<TextStyle, 'content'>[] = [
 
 export const SmartChoicesShapes: Omit<Shape, 'id'>[] = [
     {
-        type: 'rectangle',
-        x: 183,
-        y: 135,
-        width: 128,
-        height: 140,
-        color: '#808080',
-        opacity: 0.7,
+        type: "rectangle",
+        x: 288.6666259765625,
+        y: 33.3333740234375,
+        width: 180,
+        height: 330,
+        color: "#000000",
+        opacity: 1,
         borderRadius: 11,
-        zIndex: 11
-    },
-    {
-        type: 'rectangle',
-        x: 221,
-        y: 97,
-        width: 120,
-        height: 80,
-        color: '#808080',
-        opacity: 0.8,
-        borderRadius: 10,
-        zIndex: 2
-    },
-    {
-        type: 'rectangle',
-        x: 304,
-        y: 52,
-        width: 60,
-        height: 40,
-        color: '#808080',
-        opacity: 0.8,
-        borderRadius: 0,
-        zIndex: 9
-    },
-    {
-        type: 'rectangle',
-        x: 244,
-        y: 207,
-        width: 100,
-        height: 110,
-        color: '#808080',
-        opacity: 0.6,
-        borderRadius: 10,
-        zIndex: 10
-    },
-    {
-        type: 'rectangle',
-        x: 176,
-        y: 283,
-        width: 60,
-        height: 40,
-        color: '#808080',
-        opacity: 0.3,
-        borderRadius: 3,
-        zIndex: 11
-    },
-    {
-        type: 'rectangle',
-        x: 354,
-        y: 104,
-        width: 10,
-        height: 100,
-        color: '#808080',
-        opacity: 0.2,
-        borderRadius: 3,
-        zIndex: 12
+        zIndex: 21
     }
 ];

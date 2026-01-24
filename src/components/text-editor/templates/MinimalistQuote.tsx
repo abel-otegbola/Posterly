@@ -1,64 +1,29 @@
-import { TextStyle, Shape } from "@/types/interfaces/editor";
+import { Shape, TextStyle } from "@/types/interfaces/editor";
 
 export const MinimalistQuoteTemplate: Omit<TextStyle, 'content'>[] = [
     { 
-        fontSize: 28, 
-        color: "#000000", 
-        bgColor: "transparent", 
-        x: 54, 
-        y: 89, 
-        width: "400px", 
-        fontWeight: "600", 
-        textTransform: "capitalize", 
-        letterSpacing: "normal", 
-        fontFamily: "Poppins",
-        textAlign: "center",
-        zIndex: 2,
-        styleClass: "text-elegant-shadow"
+        fontSize: 32, color: "#1a1a1a", bgColor: "transparent", 
+        x: 40, y: 60, width: "300px", fontWeight: "700", 
+        textTransform: "uppercase", letterSpacing: "2px", 
+        fontFamily: "Montserrat", textAlign: "left", zIndex: 20 
     },
     { 
-        fontSize: 10, 
-        color: "#000000", 
-        bgColor: "transparent", 
-        x: 150, 
-        y: 143, 
-        width: "196px", 
-        fontWeight: "400", 
-        textTransform: "capitalize", 
-        letterSpacing: "normal", 
-        fontFamily: "Playfair Display",
-        textAlign: "center",
-        zIndex: 2,
-        styleClass: "text-premium-gradient"
+        fontSize: 10, color: "#666666", bgColor: "transparent", 
+        x: 40, y: 45, width: "200px", fontWeight: "400", 
+        textTransform: "uppercase", letterSpacing: "1px", 
+        fontFamily: "Lato", textAlign: "left", zIndex: 20 
     },
     { 
-        fontSize: 10, 
-        color: "#000000", 
-        bgColor: "rgba(158, 158, 158, 0.13)", 
-        x: 131, 
-        y: 270, 
-        width: "234px", 
-        fontWeight: "300", 
-        textTransform: "capitalize", 
-        letterSpacing: "normal", 
-        fontFamily: "Inter",
-        textAlign: "center",
-        zIndex: 2
-    },
-    { 
-        fontSize: 10, 
-        color: "#000000", 
-        bgColor: "transparent", 
-        x: 53, 
-        y: 349, 
-        width: "400px", 
-        fontWeight: "300", 
-        textTransform: "capitalize", 
-        letterSpacing: "normal", 
-        fontFamily: "Inter",
-        textAlign: "center",
-        zIndex: 2
+        fontSize: 12, color: "#333333", bgColor: "transparent", 
+        x: 40, y: 110, width: "250px", fontWeight: "300", 
+        textTransform: "none", letterSpacing: "normal", 
+        fontFamily: "Open Sans", textAlign: "left", zIndex: 20 
     }
 ];
 
-export const MinimalistQuoteShapes: Omit<Shape, 'id'>[] = [];
+export const MinimalistQuoteShapes: Omit<Shape, 'id'>[] = [
+    {
+        type: "rectangle", x: 30, y: 40, width: 4, height: 100,
+        color: "#1a1a1a", opacity: 1, borderRadius: 0, zIndex: 10
+    }
+];

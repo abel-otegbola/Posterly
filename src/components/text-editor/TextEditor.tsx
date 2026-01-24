@@ -162,7 +162,7 @@ export default function TextEditor({
 
     return (
         <div className="flex flex-col h-full w-full">
-            <div className="flex justify-between items-center gap-2 bg-primary text-white">
+            <div className="flex justify-between items-center gap-2 bg-black text-white">
                 <button className="p-4" onClick={() => setShowLeftbar(!showLeftbar)}><ListIcon /></button>
                 <p>Posterly</p>
                 <button className="p-4" onClick={() => setShowRightbar(!showRightbar)}><ListIcon /></button>

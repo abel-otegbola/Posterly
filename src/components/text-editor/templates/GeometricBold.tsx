@@ -1,75 +1,28 @@
-import { TextStyle, Shape } from "@/types/interfaces/editor";
+import { Shape, TextStyle } from "@/types/interfaces/editor";
 
 export const GeometricBoldTemplate: Omit<TextStyle, 'content'>[] = [
     { 
-        fontSize: 22, 
-        color: "#000000", 
-        bgColor: "transparent", 
-        x: 145, 
-        y: 85, 
-        width: "220px", 
-        fontWeight: "900", 
-        textTransform: "uppercase", 
-        letterSpacing: "normal", 
-        fontFamily: "Bebas Neue",
-        textAlign: "right",
-        zIndex: 2
+        fontSize: 30, color: "#2c2c2c", bgColor: "transparent", 
+        x: 200, y: 300, width: "250px", fontWeight: "400", 
+        textTransform: "none", letterSpacing: "1px", 
+        fontFamily: "Playfair Display", textAlign: "right", zIndex: 20 
     },
     { 
-        fontSize: 12, 
-        color: "#000000", 
-        bgColor: "transparent", 
-        x: 145, 
-        y: 142, 
-        width: "190px", 
-        fontWeight: "600", 
-        textTransform: "capitalize", 
-        letterSpacing: "normal", 
-        fontFamily: "Oswald",
-        textAlign: "right",
-        zIndex: 2
+        fontSize: 9, color: "#8d775f", bgColor: "transparent", 
+        x: 250, y: 285, width: "200px", fontWeight: "600", 
+        textTransform: "uppercase", letterSpacing: "2px", 
+        fontFamily: "Montserrat", textAlign: "right", zIndex: 20 
     },
     { 
-        fontSize: 10, 
-        color: "#000000", 
-        bgColor: "rgba(180, 180, 220, 0.18)", 
-        x: 125, 
-        y: 273, 
-        width: "250px", 
-        fontWeight: "400", 
-        textTransform: "none", 
-        letterSpacing: "normal", 
-        fontFamily: "Raleway",
-        textAlign: "center",
-        zIndex: 2
-    },
-    { 
-        fontSize: 10, 
-        color: "#000000", 
-        bgColor: "transparent", 
-        x: 50, 
-        y: 350, 
-        width: "400px", 
-        fontWeight: "300", 
-        textTransform: "capitalize", 
-        letterSpacing: "normal", 
-        fontFamily: "Open Sans",
-        textAlign: "center",
-        zIndex: 2
+        fontSize: 10, color: "#4a4a4a", bgColor: "transparent", 
+        x: 200, y: 350, width: "250px", fontWeight: "400", 
+        fontFamily: "Lato", textAlign: "right", zIndex: 20 
     }
 ];
 
 export const GeometricBoldShapes: Omit<Shape, 'id'>[] = [
     {
-        type: 'rectangle',
-        x: 125,
-        y: 195,
-        width: 250,
-        height: 180,
-        color: '#a8c4d1',
-        opacity: 0.45,
-        rotation: 0,
-        borderRadius: 8,
-        zIndex: 2
+        type: "rectangle", x: 380, y: 280, width: 80, height: 1,
+        color: "#8d775f", opacity: 0.8, borderRadius: 0, zIndex: 10
     }
 ];

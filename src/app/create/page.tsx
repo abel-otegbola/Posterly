@@ -2,114 +2,100 @@
 import Button from "@/components/button/Button";
 import Dropdown from "@/components/dropdown/dropdown";
 import TextEditor from "@/components/text-editor/TextEditor";
-import { StarFourIcon, NewspaperIcon, LightningIcon, HeartIcon, SparkleIcon, SpinnerIcon } from "@phosphor-icons/react";
+import { StarFourIcon, HeartIcon, SparkleIcon, SpinnerIcon, ConfettiIcon, MapPinIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import { GeneratedTexts } from "@/types/interfaces/editor";
+import Input from "@/components/input/input";
 
 export default function CreatePosterPage() {
     const [prompt, setPrompt] = useState("");
     const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
     const [posterTexts, setPosterTexts] = useState<GeneratedTexts | null>(null);
-    const [theme, setTheme] = useState("Modern");
-    const [textStyle, setTextStyle] = useState("Professional");
+    const [brandName, setBrandName] = useState("");
+    const [brandLogo, setBrandLogo] = useState("");
     const [colorScheme, setColorScheme] = useState("Vibrant & Colorful");
     const [loading, setLoading] = useState(false);
-    const [loadingTexts, setLoadingTexts] = useState(false);
     const [template, setTemplate] = useState("Mininmal Editorial");
     
     const buildEnhancedPrompt = () => {
-        const themeDirection = theme === "Dark" 
-            ? "Extremely dark, deep black or charcoal background dominating 80-90% of the canvas with minimal lighting. Very dark tones throughout."
-            : theme === "Light" 
-            ? "Pure white or very light cream background dominating 80-90% of the canvas. Bright, airy, minimal shadows. Very light tones throughout."
-            : "Clean, plain, solid color background with smooth gradients.";
+        const NO_TEXT = "No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks, no graphic elements.";
+        const QUALITY = "Photorealistic, ultra-high resolution, commercial photography style, cinematic lighting, 8k, sharp focus.";
         
-        if (template === "Mininmal Editorial") {
-            return `Photorealistic, ultra minimalist ${theme} editorial background for: ${prompt}. ${themeDirection} 70% plain empty background, 30% realistic beautiful professional person perfectly matching ${prompt}, positioned at right or left edge or corner. Subject must blend seamlessly into plain background using soft natural fade, atmospheric depth, or gentle blur - no harsh edges. Plain background only - absolutely no decorative elements, patterns, textures, or objects. Maximum empty space. Professional photography style. Hyper-realistic, natural lighting, smooth color transitions. No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks, no graphic elements.`;
-        } else if (template === "Bold Modern") {
-            return `Photorealistic modern bold ${theme} background for: ${prompt}. ${themeDirection} 70% plain empty background, 30% realistic subject representing the theme. Subject compact, placed at edge or corner with vast plain empty space. Subject blends naturally into plain background with professional lighting. Plain solid background only - no decorative elements, patterns, or extra objects. Modern, clean, realistic photography. Dramatic realistic lighting, natural color blending. No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks, no graphic elements.`;
-        } else if (template === "Soft Lifestyle") {
-            return `Photorealistic soft lifestyle ${theme} background for: ${prompt}. ${themeDirection} 80% plain empty background, 20% realistic natural subject subtly representing theme. Subject very small, at bottom or far edge with massive plain empty space. Subject blends seamlessly into plain background using natural soft focus and depth of field - no harsh separation. Plain background only - no decorative elements, patterns, textures, or objects. Lifestyle photography, hyper-realistic. Natural soft daylight, smooth realistic blending. No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks, no graphic elements.`;
-        } else if (template === "Conceptual/Abstract") {
-            return `Photorealistic conceptual ${theme} background for: ${prompt}. ${themeDirection} 85% plain empty background, 15% realistic symbolic element barely visible. Minimal realistic subject heavily blended into vast plain empty space using natural atmospheric effects. Plain background only - no decorative elements, patterns, textures, or extra objects. Photographic, realistic, meditative. Natural experimental lighting, realistic soft blending. No text, no letters, no words, no typography, no numbers, no symbols, no logos, no signage, no watermarks, no graphic elements.`;
-        } else {
-            return prompt;
-        }
+        const colorMap: Record<string, string> = {
+            "Light": "High-key lighting, bright airy white and cream tones, minimal shadows.",
+            "Dark": "Low-key lighting, moody deep charcoal and black tones, dramatic shadows.",
+            "Neutral": "Muted earth tones, beige and soft grey palette, balanced natural light.",
+            "Warm Tones": "Golden hour glow, amber and terracotta hues, sun-drenched.",
+            "Cool Tones": "Crisp blue and teal palette, clean winter light, refreshing.",
+            "Neon & Bright": "Vibrant saturated colors, high-energy pop aesthetic, glowing accents.",
+            "Earthy & Natural": "Organic greens and browns, forest light, soft natural textures.",
+            "Luxury Gold/Silver": "Opulent metallic accents, reflective surfaces, premium polished finish."
+        };
+
+        const templateMap: Record<string, string> = {
+            "Minimal Editorial": `Editorial composition for ${prompt}. 80% plain empty negative space, subject elegantly placed at the far edge, soft natural fade.`,
+            "Bold Modern": `Modern bold composition for ${prompt}. Strong focal point, clean lines, vast solid background for copy space.`,
+            "Soft Lifestyle": `Lifestyle photography for ${prompt}. Natural setting, soft focus, shallow depth of field, minimalist background.`,
+            "Conceptual/Abstract": `Abstract conceptual art for ${prompt}. Symbolic elements, atmospheric depth, meditative and artistic.`,
+            "Celebration": `Festive elegant background for ${prompt}. Clean celebratory aesthetic, sophisticated sparkles, wide open space.`,
+            "Event": `Dynamic event backdrop for ${prompt}. Professional lighting, clean surfaces, massive room for text overlay.`,
+            "Wellness": `Serene wellness aesthetic for ${prompt}. Spa-like tranquility, soft daylight, clean minimalist surfaces.`
+        };
+
+        const style = templateMap[template] || templateMap["Minimal Editorial"];
+        const colors = colorMap[colorScheme] || colorMap["Neutral"];
+
+        return `${style} ${colors} ${QUALITY} ${NO_TEXT}`.trim();
     };
-    
-    const fetchImage = async () => {
+
+    // --- API Interactions ---
+    const fetchImage = async (customPrompt?: string) => {
+        const res = await fetch("/api/generate-image", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt: customPrompt || buildEnhancedPrompt() }),
+        });
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error);
+        return data.imageUrl;
+    };
+
+    const fetchTexts = async () => {
+        const res = await fetch("/api/generate-text", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt: buildEnhancedPrompt(), brandName }),
+        });
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error);
+        return data.texts;
+    };
+
+    const generatePoster = async () => {
         setLoading(true);
-        
         try {
-            const res = await fetch("/api/generate-image", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ prompt: buildEnhancedPrompt() }),
-            });
-            const data = await res.json();
-            if (data.success) {
-                setBackgroundImage(data.imageUrl);
-            } else {
-                throw new Error(data.error || 'Image generation failed');
-            }
+            const [imageUrl, texts] = await Promise.all([fetchImage(), fetchTexts()]);
+            setBackgroundImage(imageUrl);
+            setPosterTexts(texts);
         } catch (error) {
-            console.error('Failed to generate image:', error);
-            alert('Image generation failed. Please try again.');
+            console.error('Generation failed:', error);
+            alert("Something went wrong. Please try again.");
         } finally {
             setLoading(false);
         }
-    }
-
-    const fetchTexts = async () => {
-        setLoadingTexts(true);
-        
-        try {
-            const res = await fetch("/api/generate-text", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ prompt: buildEnhancedPrompt() }),
-            });
-            const data = await res.json();
-            if (data.success) {
-                setPosterTexts(data.texts);
-            } else {
-                throw new Error(data.error || 'Text generation failed');
-            }
-        } catch (error) {
-            console.error('Failed to generate texts:', error);
-            alert('Text generation failed. Please try again.');
-        } finally {
-            setLoadingTexts(false);
-        }
-    }
-
-    const generatePoster = async () => {
-        await Promise.all([fetchImage(), fetchTexts()]);
-    }
-
-    const handleNewPoster = () => {
-        setBackgroundImage(null);
-        setPosterTexts(null);
-    }
+    };
 
     const handleRegenerateBackground = async (customPrompt: string) => {
+        setLoading(true);
         try {
-            const res = await fetch("/api/generate-image", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ prompt: customPrompt || buildEnhancedPrompt() }),
-            });
-            const data = await res.json();
-            if (data.success) {
-                setBackgroundImage(data.imageUrl);
-            } else {
-                throw new Error(data.error || 'Background regeneration failed');
-            }
+            const imageUrl = await fetchImage(customPrompt);
+            setBackgroundImage(imageUrl);
         } catch (error) {
-            console.error('Failed to regenerate background:', error);
-            alert('Background regeneration failed. Please try again.');
+            console.log('Background regeneration failed.', error);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     return (
         <div className="min-h-screen flex flex-col gap-6 bg-gray-50">
@@ -118,24 +104,23 @@ export default function CreatePosterPage() {
                     backgroundImage={backgroundImage}
                     initialTexts={posterTexts || undefined}
                     initialPrompt={buildEnhancedPrompt()}
-                    onClose={handleNewPoster}
+                    onClose={() => setBackgroundImage(null)}
                     onRegenerateBackground={handleRegenerateBackground}
                 />
             :
-            <div className="flex p-4 items-center justify-center h-screen">
+            <div className="flex p-4 items-center justify-center h-screen md:max-w-3xl mx-auto w-full">
 
-                <div className="flex flex-col">
+                <div className="flex flex-col w-full">
                     <h1 className="bg-gradient-to-r from-black via-primary to-[#D9EF34] bg-clip-text text-transparent 2xl:text-[32px] md:text-[28px] text-[20px] font-bold leading-[28px]">Hi there,</h1>
                     <h1 className="bg-gradient-to-r from-black via-primary to-[#D9EF34] bg-clip-text text-transparent 2xl:text-[32px] md:text-[28px] text-[20px] font-bold leading-[28px]">Ready to create your poster?</h1>
                     <p className="my-4">Select one of the template below and add the poster text to start creating</p>
 
-                    {/* poster templates */}
-                    <div className="grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-2 mb-4">
+                    <div className={`grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-2 mb-4`}>
                         { 
                         [
-                            { name: "Mininmal Editorial", icon: <NewspaperIcon />, description: "Best for: Brands, announcements, quotes, tech, exhibitions" },
-                            { name: "Bold Modern", icon: <LightningIcon />, description: "Best for: Events, sales, promotions, music, nightlife" },
-                            { name: "Soft Lifestyle", icon: <HeartIcon />, description: "Best for: Wellness, beauty, lifestyle, fashion, health" },
+                            { name: "Celebration", icon: <ConfettiIcon/>, description: "Birthday, Milestones, Anniversaries" },
+                            { name: "Event", icon: <MapPinIcon />, description: "Best for: Events, sales, promotions, music, nightlife" },
+                            { name: "Wellness", icon: <HeartIcon />, description: "Best for: Wellness, beauty, lifestyle, fashion, health" },
                             { name: "Conceptual/Abstract", icon: <SparkleIcon />, description: "Best for: Art, creativity, abstract concepts, ideas" },
                         ].map((element, index) => (
                             <button 
@@ -152,73 +137,56 @@ export default function CreatePosterPage() {
 
                     
 
-                    <div className="flex flex-col gap-2 p-2 rounded-[12px] border border-gray-500/[0.2] w-full bg-white">
+                    <div className={`flex flex-col gap-2 p-2 rounded-[12px] border border-gray-500/[0.2] w-full bg-white`}>
                         <textarea 
-                            placeholder="Enter poster text" 
+                            placeholder="Describe your poster idea here..." 
                             className="border-none h-[120px] outline-none p-2 rounded w-full"
                             value={prompt}
                             onChange={(e) => setPrompt(e.target.value)}
                         ></textarea>
-                        <div className="flex flex-wrap gap-4 justify-between items-end">
+                        
+                    </div>
+                    <div className="flex gap-4 sm:flex-row flex-col justify-between items-start mt-4">
                             {/* Customization Options */}
                             <div className="grid grid-cols-3 gap-2">
-                                <Dropdown
-                                    value={theme}
-                                    onChange={(value) => setTheme(value)}
-                                    options={[
-                                        { id: 1, title: "Modern" },
-                                        { id: 2, title: "Dark" },
-                                        { id: 3, title: "Light" },
-                                        { id: 4, title: "Halloween" },
-                                        { id: 5, title: "Christmas" },
-                                        { id: 6, title: "Holiday" },
-                                        { id: 7, title: "Travel" },
-                                        { id: 8, title: "Vintage" },
-                                        { id: 9, title: "Minimalist" },
-                                        { id: 10, title: "Corporate" }
-                                    ]}
+                                <Input
+                                    className="h-[32px]"
+                                    placeholder="Your Brand Name"
+                                    value={brandName}
+                                    onChange={(e) => setBrandName(e.target.value)}
                                 />
-
-                                <Dropdown
-                                    value={textStyle}
-                                    onChange={(value) => setTextStyle(value)}
-                                    options={[
-                                        { id: 1, title: "Professional" },
-                                        { id: 2, title: "Playful" },
-                                        { id: 3, title: "Church/Religious" },
-                                        { id: 4, title: "Casual" },
-                                        { id: 5, title: "Formal" },
-                                        { id: 6, title: "Bold & Energetic" },
-                                        { id: 7, title: "Elegant" },
-                                        { id: 8, title: "Friendly" }
-                                    ]}
+                                <Input
+                                    className="h-[32px]"
+                                    placeholder="Your Brand Logo"
+                                    value={brandLogo}
+                                    onChange={(e) => setBrandLogo(e.target.value)}
                                 />
 
                                 <Dropdown
                                     value={colorScheme}
+                                    placeholder="Choose Colour Scheme"
                                     onChange={(value) => setColorScheme(value)}
                                     options={[
-                                        { id: 1, title: "Vibrant & Colorful" },
-                                        { id: 2, title: "Soft Pastel" },
-                                        { id: 3, title: "Monochrome" },
-                                        { id: 4, title: "Warm Tones" },
-                                        { id: 5, title: "Cool Tones" },
-                                        { id: 6, title: "Neon & Bright" },
-                                        { id: 7, title: "Earthy & Natural" },
-                                        { id: 8, title: "Luxury Gold/Silver" }
+                                        { id: 1, title: "Light", icon: <span className="h-4 w-4 bg-white rounded-full"></span> },
+                                        { id: 2, title: "Dark", icon: <span className="h-4 w-4 bg-black rounded-full"></span> },
+                                        { id: 3, title: "Neutral", icon: <span className="h-4 w-4 bg-gray-500 rounded-full"></span> },
+                                        { id: 4, title: "Warm Tones", icon: <span className="h-4 w-4 bg-red-500 rounded-full"></span> },
+                                        { id: 5, title: "Cool Tones", icon: <span className="h-4 w-4 bg-blue-500 rounded-full"></span> },
+                                        { id: 6, title: "Neon & Bright", icon: <span className="h-4 w-4 bg-pink-500 rounded-full"></span> },
+                                        { id: 7, title: "Earthy & Natural", icon: <span className="h-4 w-4 bg-green-500 rounded-full"></span> },
+                                        { id: 8, title: "Luxury Gold/Silver", icon: <span className="h-4 w-4 bg-yellow-500 rounded-full"></span> },
                                     ]}
                                 />
                             </div>
                             
                             <div className="relative sm:w-auto w-full">
-                                <div className="absolute dark:top-[5%] top-[5%] left-[1%] w-[98%] dark:h-[90%] h-[90%] z-[-1] btn-bg p-2 backdrop-blur-[15px] rounded-[12px] bg-opacity-80 ">
+                                <div className="absolute dark:top-[5%] top-[5%] left-[1%] w-[98%] dark:h-[90%] h-[90%] z-[1] btn-bg p-2 backdrop-blur-[15px] rounded-[12px] bg-opacity-80 ">
                                 </div>
-                                <Button className="sm:w-auto w-full z-[2]" onClick={generatePoster} disabled={loading || loadingTexts}>
-                                    { (loading || loadingTexts) ? <SpinnerIcon className="animate-spin" /> : <><StarFourIcon /> Generate</> }
+                                <Button className="relative sm:w-auto w-full z-[2] py-2" onClick={generatePoster} disabled={loading}>
+                                    { (loading) ? <SpinnerIcon className="animate-spin" /> : <><StarFourIcon /> Generate</> }
                                 </Button>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
             }
