@@ -5,6 +5,9 @@ import { IntelligenceQuoteTemplate, IntelligenceQuoteShapes } from "./Intelligen
 import { PlayfulSplitTemplate, PlayfulSplitShapes } from "./PlayfulSplit";
 import { ThreeDStackTemplate, ThreeDStackShapes } from "./ThreeDStack";
 import { TextStyle, Shape } from "@/types/interfaces/editor";
+import { CinematicShapes, CinematicTemplate } from "./Cinematic";
+import { GlassCardShapes, GlassCardTemplate } from "./GlassCard";
+import { BrutalistShapes, BrutalistTrendTemplate } from "./AssymetricBrutalist";
 
 export interface PosterTemplate {
     name: string;
@@ -49,5 +52,23 @@ export const POSTER_TEMPLATES: PosterTemplate[] = [
         description: "Bold stacked with depth",
         styles: ThreeDStackTemplate,
         shapes: ThreeDStackShapes
+    },
+    {
+        name: "Cinematic",
+        description: "Dramatic and bold",
+        styles: CinematicTemplate,
+        shapes: CinematicShapes
+    }, 
+    {
+        name: "Glass Card",
+        description: "Frosted glass effect",
+        styles: GlassCardTemplate,
+        shapes: GlassCardShapes
+    },
+    {
+        name: "Assymetric Modern",
+        description: "",
+        styles: BrutalistTrendTemplate,
+        shapes: BrutalistShapes
     }
 ];
