@@ -2,14 +2,14 @@
 import Button from "@/components/button/Button";
 import Dropdown from "@/components/dropdown/dropdown";
 import TextEditor from "@/components/text-editor/TextEditor";
+import { PosterTextContent } from "@/types/interfaces/editor";
 import { StarFourIcon, HeartIcon, SparkleIcon, SpinnerIcon, ConfettiIcon, MapPinIcon } from "@phosphor-icons/react";
 import { useState } from "react";
-import { GeneratedTexts } from "@/types/interfaces/editor";
 
 export default function CreatePosterPage() {
     const [prompt, setPrompt] = useState("");
     const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
-    const [posterTexts, setPosterTexts] = useState<GeneratedTexts | null>(null);
+    const [posterTexts, setPosterTexts] = useState<PosterTextContent | null>(null);
     const [colorScheme, setColorScheme] = useState("Vibrant & Colorful");
     const [loading, setLoading] = useState(false);
     const [template, setTemplate] = useState("Mininmal Editorial");
@@ -73,7 +73,7 @@ export default function CreatePosterPage() {
         try {
             const [imageUrl, texts] = await Promise.all([fetchImage(), fetchTexts()]);
             setBackgroundImage(imageUrl);
-            setPosterTexts(texts);
+            setPosterTexts(texts[0]);
         } catch (error) {
             console.error('Generation failed:', error);
             alert("Something went wrong. Please try again.");

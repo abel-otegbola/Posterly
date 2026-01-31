@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PosterPreview from "./PosterPreview";
 import PosterEditorSidebar from "./PosterEditorSidebar";
 import TextEditorPanel from "./TextEditorPanel";
@@ -38,10 +38,10 @@ export default function TextEditor({
         if (!initialTexts) return;
         const template = POSTER_TEMPLATES[templateIndex];
         const contents = [
-            initialTexts.content.headline,
-            initialTexts.content.subheadline,
-            initialTexts.content.bodyText,
-            initialTexts.content.additionalInfo
+            initialTexts.headline,
+            initialTexts.subheadline,
+            initialTexts.bodyText,
+            initialTexts.additionalInfo
         ];
         setTextStyles(template.styles.map((style, index) => ({
             ...style,
@@ -59,10 +59,6 @@ export default function TextEditor({
         
         setCurrentTemplate(templateIndex);
     };
-
-    useEffect(() => {
-        console.log(textStyles, shapes)
-    }, [textStyles, shapes]);
 
     const updateTextStyle = (index: number, updates: Partial<TextStyle>) => {
         const newStyles = [...textStyles];

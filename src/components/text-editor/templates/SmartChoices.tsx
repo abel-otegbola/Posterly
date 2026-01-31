@@ -64,15 +64,4 @@ export const SmartChoicesTemplate: Omit<TextStyle, 'content'>[] = [
 ];
 
 export const SmartChoicesShapes: Omit<Shape, 'id'>[] = [
-    {
-        type: "rectangle",
-        x: 288.6666259765625,
-        y: 33.3333740234375,
-        width: 180,
-        height: 330,
-        color: "#000000",
-        opacity: 1,
-        borderRadius: 11,
-        zIndex: 21
-    }
 ];

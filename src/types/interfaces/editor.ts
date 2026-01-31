@@ -71,14 +71,9 @@ export interface PosterTextStyles {
     };
 }
 
-export interface GeneratedTexts {
-    content: PosterTextContent;
-    styles: PosterTextStyles;
-}
-
 export interface TextEditorProps {
     backgroundImage: string;
-    initialTexts?: GeneratedTexts;
+    initialTexts?: PosterTextContent;
     initialPrompt?: string;
     themeColor?: string;
     onClose?: () => void;
