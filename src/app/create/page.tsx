@@ -5,14 +5,11 @@ import TextEditor from "@/components/text-editor/TextEditor";
 import { StarFourIcon, HeartIcon, SparkleIcon, SpinnerIcon, ConfettiIcon, MapPinIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import { GeneratedTexts } from "@/types/interfaces/editor";
-import Input from "@/components/input/input";
 
 export default function CreatePosterPage() {
     const [prompt, setPrompt] = useState("");
     const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
     const [posterTexts, setPosterTexts] = useState<GeneratedTexts | null>(null);
-    const [brandName, setBrandName] = useState("");
-    const [brandLogo, setBrandLogo] = useState("");
     const [colorScheme, setColorScheme] = useState("Vibrant & Colorful");
     const [loading, setLoading] = useState(false);
     const [template, setTemplate] = useState("Mininmal Editorial");
@@ -64,7 +61,7 @@ export default function CreatePosterPage() {
         const res = await fetch("/api/generate-text", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt: buildEnhancedPrompt(), brandName }),
+            body: JSON.stringify({ prompt: buildEnhancedPrompt() }),
         });
         const data = await res.json();
         if (!data.success) throw new Error(data.error);
@@ -108,7 +105,7 @@ export default function CreatePosterPage() {
                     onRegenerateBackground={handleRegenerateBackground}
                 />
             :
-            <div className="flex p-4 items-center justify-center h-screen md:max-w-3xl mx-auto w-full">
+            <div className="flex p-4 items-center justify-center h-screen max-w-4xl mx-auto w-full">
 
                 <div className="flex flex-col w-full">
                     <h1 className="bg-gradient-to-r from-black via-primary to-[#D9EF34] bg-clip-text text-transparent 2xl:text-[32px] md:text-[28px] text-[20px] font-bold leading-[28px]">Hi there,</h1>
@@ -145,23 +142,7 @@ export default function CreatePosterPage() {
                             onChange={(e) => setPrompt(e.target.value)}
                         ></textarea>
                         
-                    </div>
-                    <div className="flex gap-4 sm:flex-row flex-col justify-between items-start mt-4">
-                            {/* Customization Options */}
                             <div className="grid grid-cols-3 gap-2">
-                                <Input
-                                    className="h-[32px]"
-                                    placeholder="Your Brand Name"
-                                    value={brandName}
-                                    onChange={(e) => setBrandName(e.target.value)}
-                                />
-                                <Input
-                                    className="h-[32px]"
-                                    placeholder="Your Brand Logo"
-                                    value={brandLogo}
-                                    onChange={(e) => setBrandLogo(e.target.value)}
-                                />
-
                                 <Dropdown
                                     value={colorScheme}
                                     placeholder="Choose Colour Scheme"
@@ -178,7 +159,10 @@ export default function CreatePosterPage() {
                                     ]}
                                 />
                             </div>
-                            
+                    </div>
+                    <div className="flex gap-4 sm:flex-row flex-col justify-between items-start mt-4">
+                            {/* Customization Options */}
+                            <span></span>
                             <div className="relative sm:w-auto w-full">
                                 <div className="absolute dark:top-[5%] top-[5%] left-[1%] w-[98%] dark:h-[90%] h-[90%] z-[1] btn-bg p-2 backdrop-blur-[15px] rounded-[12px] bg-opacity-80 ">
                                 </div>

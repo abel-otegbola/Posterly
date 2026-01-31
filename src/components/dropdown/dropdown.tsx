@@ -72,7 +72,7 @@ export default function Dropdown({ className, disabled, label, name, options = [
 
             {/* Custom Dropdown Menu */}
             {isOpen && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-500/[0.2] rounded shadow-lg z-50 max-h-[300px] overflow-hidden">
+                <div className="absolute bottom-full left-0 right-0 mt-1 bg-white border border-gray-500/[0.2] rounded shadow-lg z-50 max-h-[300px] overflow-hidden">
                     {/* Search Input */}
                     <div className="p-1 border-b border-gray-500/[0.2]">
                         <input

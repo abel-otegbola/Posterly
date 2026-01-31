@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Figtree, Inter, Poppins, Montserrat, Roboto, Playfair_Display, Bebas_Neue, Oswald, Anton, Raleway, Lato, Open_Sans, Merriweather, Lexend } from "next/font/google";
 import "./globals.css";
+import Topbar from "@/components/topbar/topbar";
 
 const figtree = Figtree({
   variable: "--font-figtree",
@@ -92,8 +93,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${figtree.variable} ${lexend.variable} ${inter.variable} ${poppins.variable} ${montserrat.variable} ${roboto.variable} ${playfair.variable} ${bebas.variable} ${oswald.variable} ${anton.variable} ${raleway.variable} ${lato.variable} ${openSans.variable} ${merriweather.variable} bg-white antialiased 2xl:text-[18px] md:text-[15px] text-[14px] leading-[100%] tracking-[0%]`}
+        className={`${figtree.variable} ${lexend.variable} ${inter.variable} ${poppins.variable} ${montserrat.variable} ${roboto.variable} ${playfair.variable} ${bebas.variable} ${oswald.variable} ${anton.variable} ${raleway.variable} ${lato.variable} ${openSans.variable} ${merriweather.variable} bg-white antialiased 2xl:text-[18px] md:text-[15px] text-[14px] leading-[100%] tracking-[0%] mb-20`}
       >
+        <Topbar />
         {children}
       </body>
     </html>
