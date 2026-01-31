@@ -74,12 +74,6 @@ Create a `.env.local` file in the root directory with the following variables:
 
 ### Getting API Keys
 
-**HuggingFace Token:**
-1. Sign up at [HuggingFace](https://huggingface.co/join)
-2. Go to Settings → Access Tokens
-3. Create a new token with read permissions
-4. Copy and paste into `.env.local`
-
 **Google API Key:**
 1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
 2. Sign in with your Google account
@@ -92,8 +86,7 @@ Create a `.env.local` file in the root directory with the following variables:
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **AI Models**: 
-  - HuggingFace FLUX.1-schnell (Image Generation)
-  - Google Gemini Pro (Text Generation)
+  - Google Gemini Pro (Text Generation and Image Generation)
 - **Icons**: Phosphor Icons
 - **UI Components**: Custom component library
 

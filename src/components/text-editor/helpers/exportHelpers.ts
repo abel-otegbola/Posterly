@@ -5,26 +5,39 @@ export const exportPosterAsPNG = async (
         // Dynamically import dom-to-image-more only when needed (client-side)
         const domtoimage = (await import('dom-to-image-more')).default;
         
-        // Temporarily hide all outlines by setting inline styles
-        const elementsWithOutline = posterElement.querySelectorAll('.outline, [class*="outline-"]');
-        const originalStyles: { 
-            element: HTMLElement; 
-            outline: string; 
-            outlineWidth: string; 
-            outlineColor: string 
+
+        // Temporarily hide all outlines and borders by setting inline styles
+        const elementsWithOutlineOrBorder = posterElement.querySelectorAll('.outline, [class*="outline-"], [class*="border"], [style*="border"], [style*="outline"]');
+        const originalStyles: {
+            element: HTMLElement;
+            outline: string;
+            outlineWidth: string;
+            outlineColor: string;
+            border: string;
+            borderWidth: string;
+            borderColor: string;
+            borderStyle: string;
         }[] = [];
-        
-        elementsWithOutline.forEach((el) => {
+
+        elementsWithOutlineOrBorder.forEach((el) => {
             const htmlEl = el as HTMLElement;
             originalStyles.push({
                 element: htmlEl,
                 outline: htmlEl.style.outline,
                 outlineWidth: htmlEl.style.outlineWidth,
-                outlineColor: htmlEl.style.outlineColor
+                outlineColor: htmlEl.style.outlineColor,
+                border: htmlEl.style.border,
+                borderWidth: htmlEl.style.borderWidth,
+                borderColor: htmlEl.style.borderColor,
+                borderStyle: htmlEl.style.borderStyle
             });
             htmlEl.style.outline = 'none';
             htmlEl.style.outlineWidth = '0';
             htmlEl.style.outlineColor = 'transparent';
+            htmlEl.style.border = 'none';
+            htmlEl.style.borderWidth = '0';
+            htmlEl.style.borderColor = 'transparent';
+            htmlEl.style.borderStyle = 'none';
         });
         
         const dataUrl = await domtoimage.toPng(posterElement, {
@@ -39,11 +52,16 @@ export const exportPosterAsPNG = async (
             }
         });
         
-        // Restore original outline styles
-        originalStyles.forEach(({ element, outline, outlineWidth, outlineColor }) => {
+
+        // Restore original outline and border styles
+        originalStyles.forEach(({ element, outline, outlineWidth, outlineColor, border, borderWidth, borderColor, borderStyle }) => {
             element.style.outline = outline;
             element.style.outlineWidth = outlineWidth;
             element.style.outlineColor = outlineColor;
+            element.style.border = border;
+            element.style.borderWidth = borderWidth;
+            element.style.borderColor = borderColor;
+            element.style.borderStyle = borderStyle;
         });
         
         // Download the image
